@@ -3,7 +3,6 @@
 Personal portfolio website of **Niel Adrian**.
 
 > 🚧 Work in progress. The concept, design, and content are still being planned.
-> See [`docs/PLANNING.md`](docs/PLANNING.md).
 
 ## Tech stack
 

@@ -27,3 +27,24 @@ pnpm-debug.log*
 Thumbs.db
 *.suo
 *.sw?
+
+# AI assistants / agent tooling (keep local, never commit)
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+GEMINI.md
+.cursor/
+.cursorrules
+.windsurf/
+.windsurfrules
+.github/copilot-instructions.md
+.aider*
+.codex/
+.gemini/
+.continue/
+
+# Planning notes (keep local, never commit)
+docs/
+PLANNING.md
+NOTES.md
