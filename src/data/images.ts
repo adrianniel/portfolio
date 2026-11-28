@@ -17,6 +17,42 @@ export const images = {
     ],
     "width": 1170,
     "height": 1824
+  },
+  "projects/dagohoy": {
+    "base": "img/projects/dagohoy",
+    "widths": [
+      720,
+      800
+    ],
+    "width": 800,
+    "height": 500
+  },
+  "projects/iqueue": {
+    "base": "img/projects/iqueue",
+    "widths": [
+      720,
+      1024
+    ],
+    "width": 1024,
+    "height": 640
+  },
+  "projects/lisa": {
+    "base": "img/projects/lisa",
+    "widths": [
+      720,
+      1440
+    ],
+    "width": 1440,
+    "height": 900
+  },
+  "projects/tumbli": {
+    "base": "img/projects/tumbli",
+    "widths": [
+      720,
+      1440
+    ],
+    "width": 1920,
+    "height": 1200
   }
 } as const satisfies Record<string, ImageAsset>
 
