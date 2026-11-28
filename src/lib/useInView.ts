@@ -26,15 +26,12 @@ function getObserver() {
 /** True once the element has scrolled into view (fires a single time). */
 export function useInView<T extends Element>() {
   const ref = useRef<T>(null)
-  const [inView, setInView] = useState(false)
+  // Without IntersectionObserver (very old browsers) everything just shows.
+  const [inView, setInView] = useState(() => typeof IntersectionObserver === 'undefined')
 
   useEffect(() => {
     const el = ref.current
     if (!el || inView) return
-    if (typeof IntersectionObserver === 'undefined') {
-      setInView(true)
-      return
-    }
     const io = getObserver()
     callbacks.set(el, () => setInView(true))
     io.observe(el)
