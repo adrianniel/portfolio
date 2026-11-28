@@ -1,5 +1,7 @@
 import { About } from './components/About'
 import { Certificates } from './components/Certificates'
+import { Contact } from './components/Contact'
+import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Work } from './components/Work'
@@ -16,7 +18,9 @@ function App() {
         <About />
         <Work />
         <Certificates />
+        <Contact />
       </main>
+      <Footer />
     </div>
   )
 }
