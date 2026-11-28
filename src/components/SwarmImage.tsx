@@ -16,6 +16,8 @@ type Props = {
   priority?: boolean
   /** Total build time in ms. */
   duration?: number
+  /** CSS aspect-ratio override, e.g. "4 / 5". Defaults to the image's own. */
+  aspect?: string
 }
 
 const CREAM = '#f2ebdc'
@@ -54,6 +56,7 @@ export function SwarmImage({
   imgClassName = '',
   priority = false,
   duration = 2000,
+  aspect,
 }: Props) {
   const asset = images[image]
   const { name } = useViewer()
@@ -165,10 +168,10 @@ export function SwarmImage({
           c.travel = 420
           return
         }
-        const window = queue.slice(0, 6)
+        const nearby = queue.slice(0, 6)
         let best = 0
         let bestD = Infinity
-        window.forEach((tile, i) => {
+        nearby.forEach((tile, i) => {
           const d = Math.hypot(tile.cx - c.x, tile.cy - c.y)
           if (d < bestD) {
             bestD = d
@@ -213,8 +216,10 @@ export function SwarmImage({
         ctx.restore()
       }
 
-      const frame = (t: number) => {
+      const frame = () => {
         if (cancelled) return
+        // One clock for everything (rAF timestamps can lag performance.now).
+        const t = performance.now()
         ctx.clearRect(0, 0, W, H)
 
         let covered = 0
@@ -281,7 +286,7 @@ export function SwarmImage({
     <div
       ref={ref}
       className={`relative overflow-hidden ${className}`}
-      style={{ aspectRatio: `${asset.width} / ${asset.height}` }}
+      style={{ aspectRatio: aspect ?? `${asset.width} / ${asset.height}` }}
     >
       <picture>
         <source type="image/avif" srcSet={srcSet(image, 'avif')} sizes={sizes} />
