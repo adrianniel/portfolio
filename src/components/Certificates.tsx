@@ -3,13 +3,11 @@ import { certificates } from '../data/content'
 import type { Certificate } from '../data/content'
 import { images } from '../data/images'
 import { fallbackSrc, srcSet } from '../lib/img'
-import { useViewer } from '../lib/viewer'
 import { View } from './View'
 import { to } from '../lib/router'
 import { SwarmImage } from './SwarmImage'
 
 export function Certificates() {
-  const { say } = useViewer()
   const dialog = useRef<HTMLDialogElement>(null)
   const [open, setOpen] = useState<Certificate | null>(null)
 
@@ -20,7 +18,7 @@ export function Certificates() {
   const close = () => dialog.current?.close()
 
   return (
-    <View number="03" kicker="Certificates" title={say('Receipts, in case you need them, {name}.')} next={{ label: 'Contact', href: to({ name: 'contact' }) }}>
+    <View number="03" kicker="Certificates" title="Receipts, in case you need them." next={{ label: 'Contact', href: to({ name: 'contact' }) }}>
       <ul className="grid gap-x-8 gap-y-14 sm:grid-cols-2">
         {certificates.map((cert) => (
           <li key={cert.verify}>

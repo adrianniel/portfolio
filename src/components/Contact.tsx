@@ -1,16 +1,13 @@
 import { useState } from 'react'
 import { profile } from '../data/content'
-import { useViewer } from '../lib/viewer'
 import { Clock } from './Clock'
 import { Reveal } from './Reveal'
 import { View } from './View'
 
 export function Contact() {
-  const { name, say } = useViewer()
   const [copied, setCopied] = useState(false)
 
-  const subject = name ? `Hello from ${name}` : 'Hello from your portfolio'
-  const mailto = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}`
+  const mailto = `mailto:${profile.email}?subject=${encodeURIComponent('Hello, Niel')}`
 
   const copy = async () => {
     try {
@@ -23,7 +20,7 @@ export function Contact() {
   }
 
   return (
-    <View number="04" kicker="Contact" title={say("Let's build something, {name}.")}>
+    <View number="04" kicker="Contact" title="Let's build something together.">
       <Reveal className="max-w-[32rem] text-lg leading-relaxed text-ink-soft text-pretty">
         I'm open to internships, freelance work and good conversations about software. Write to me and I'll get
         back to you within a day or two.

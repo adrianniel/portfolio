@@ -3,7 +3,6 @@ import { images } from '../data/images'
 import type { ImageKey } from '../data/images'
 import { fallbackSrc, srcSet } from '../lib/img'
 import { prefersReducedMotion, useInView } from '../lib/useInView'
-import { useViewer } from '../lib/viewer'
 
 type Props = {
   image: ImageKey
@@ -59,15 +58,10 @@ export function SwarmImage({
   aspect,
 }: Props) {
   const asset = images[image]
-  const { name } = useViewer()
   const [ref, inView] = useInView<HTMLDivElement>()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
   const [done, setDone] = useState(false)
-  const viewerLabel = useRef(name ?? 'you')
-  useEffect(() => {
-    viewerLabel.current = name ?? 'you'
-  }, [name])
 
   // Cover the image before the first paint so it never flashes in early.
   useLayoutEffect(() => {
@@ -140,7 +134,7 @@ export function SwarmImage({
       const cursors: Cursor[] = Array.from({ length: count }, (_, i) => {
         const [x, y] = edge()
         return {
-          label: i === 0 ? viewerLabel.current : HELPERS[(i - 1) % HELPERS.length],
+          label: HELPERS[i % HELPERS.length],
           x,
           y,
           fromX: x,

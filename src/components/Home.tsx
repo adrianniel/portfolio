@@ -1,16 +1,13 @@
 import { projects } from '../data/content'
 import { to } from '../lib/router'
-import { useViewer } from '../lib/viewer'
-import { NameField } from './NameField'
 import { Reveal } from './Reveal'
 import { SwarmImage } from './SwarmImage'
 
 export function Home() {
-  const { greeting, name } = useViewer()
   const live = projects.filter((p) => p.status === 'Live').length
 
   return (
-    <article aria-labelledby="greeting">
+    <article aria-labelledby="home-title">
       {/* On phones the sidebar is folded away, so the name gets its big moment here. */}
       <p aria-hidden="true" className="font-dot mb-10 text-[clamp(3.25rem,17vw,5rem)] leading-[0.9] font-black tracking-[-0.02em] lg:hidden">
         Niel
@@ -19,24 +16,19 @@ export function Home() {
       </p>
       <div className="grid gap-10 sm:grid-cols-[1fr_12rem] sm:items-end sm:gap-12">
         <div>
-          <p className="label mb-6">00 — {name ? `A tour for ${name}` : 'A short tour'}</p>
-          {/* key re-runs the reveal when the name changes */}
+          <p className="label mb-6">00 — Full-stack developer</p>
           <Reveal
-            key={greeting}
             as="h1"
-            id="greeting"
-            stagger={70}
-            className="font-display text-[clamp(2.75rem,8vw,5rem)] leading-[0.95] tracking-[-0.02em] text-balance"
+            id="home-title"
+            stagger={60}
+            className="font-display text-[clamp(2.6rem,7vw,4.5rem)] leading-[0.98] tracking-[-0.02em] text-balance"
           >
-            {greeting}
+            I build software people use every day.
           </Reveal>
           <Reveal delay={250} className="mt-8 max-w-[32rem] text-lg leading-relaxed text-ink-soft text-pretty">
-            I'm Niel, a full-stack developer from Bohol, Philippines. I build software that real people use
-            every day: a queue for a campus, surveys for farmers, a till for a pharmacy.
+            I'm Niel Adrian Garig, a developer from Bohol, Philippines. A queue for a campus, surveys for
+            farmers, a till for a pharmacy: what I make ends up in real hands.
           </Reveal>
-          <div className="mt-10">
-            <NameField />
-          </div>
         </div>
 
         <SwarmImage
@@ -71,7 +63,7 @@ export function Home() {
           href={to({ name: 'about' })}
           className="group inline-flex items-center gap-2 rounded-full border border-ink px-5 py-3 text-[0.95rem] font-medium transition-colors hover:bg-ink hover:text-cream"
         >
-          {name ? `Start your tour, ${name}` : 'Start the tour'}
+          Start the tour
           <span aria-hidden="true" className="transition-transform duration-500 ease-out-expo group-hover:translate-x-1">
             →
           </span>

@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import { certificates, profile, projects } from '../data/content'
 import { keyOf, sectionOf, to } from '../lib/router'
 import type { Route, RouteName } from '../lib/router'
-import { useViewer } from '../lib/viewer'
 import { Clock } from './Clock'
 
 type Item = { name: Exclude<RouteName, 'project'>; n: string; label: string; count?: number }
@@ -66,7 +65,6 @@ function NavList({ active, large = false, onNavigate }: { active: RouteName; lar
 }
 
 export function Sidebar({ route }: { route: Route }) {
-  const { name } = useViewer()
   const active = sectionOf(route)
   const drawer = useRef<HTMLDialogElement>(null)
   const close = () => drawer.current?.close()
@@ -95,7 +93,6 @@ export function Sidebar({ route }: { route: Route }) {
           <span className="block">Adrian</span>
         </a>
         <p className="label mt-4">{profile.role}</p>
-        {name && <p className="label mt-1 text-ink">Tour for {name}</p>}
 
         <nav aria-label="Main" className="mt-14">
           <NavList active={active} />

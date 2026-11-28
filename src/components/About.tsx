@@ -1,14 +1,11 @@
 import { profile, stack } from '../data/content'
-import { useViewer } from '../lib/viewer'
 import { Reveal } from './Reveal'
 import { View } from './View'
 import { to } from '../lib/router'
 
 export function About() {
-  const { say } = useViewer()
-
   return (
-    <View number="01" kicker="About" title={say('A little about me, {name}.')} next={{ label: 'Work', href: to({ name: 'work' }) }}>
+    <View number="01" kicker="About" title="A little about me." next={{ label: 'Work', href: to({ name: 'work' }) }}>
       <div className="grid gap-12 sm:grid-cols-[1fr_14rem]">
         <div className="space-y-6 text-lg leading-relaxed text-pretty">
           <Reveal>
