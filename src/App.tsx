@@ -1,4 +1,5 @@
 import { About } from './components/About'
+import { Certificates } from './components/Certificates'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Work } from './components/Work'
@@ -14,6 +15,7 @@ function App() {
         <Hero />
         <About />
         <Work />
+        <Certificates />
       </main>
     </div>
   )
