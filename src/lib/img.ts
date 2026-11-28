@@ -13,3 +13,10 @@ export function fallbackSrc(key: ImageKey) {
   const img = images[key]
   return `${img.base}-${img.widths[img.widths.length - 1]}.webp`
 }
+
+/** One file at (or just above) a target width, for small fixed-size uses. */
+export function sized(key: ImageKey, width: number, ext: 'avif' | 'webp' = 'webp') {
+  const img = images[key]
+  const w = img.widths.find((x) => x >= width) ?? img.widths[img.widths.length - 1]
+  return `${img.base}-${w}.${ext}`
+}

@@ -6,6 +6,10 @@
 @import "@fontsource-variable/martian-mono/wght.css";
 @import "@fontsource-variable/doto/full.css";
 
+/* Mouse and trackpad vs. touch: hover effects only where hovering exists. */
+@custom-variant can-hover (@media (hover: hover) and (pointer: fine));
+@custom-variant no-hover (@media not all and (hover: hover) and (pointer: fine));
+
 /*
  * Palette: cream and ink get along; ember (burnt orange) does not.
  * Ember is reserved for the one thing on screen that should be clicked.

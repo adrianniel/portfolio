@@ -29,7 +29,7 @@ export type Project = {
   status: 'Live' | 'In progress'
   kind: string
   summary: string
-  /** A short line addressed to the viewer; `{name}` is replaced. */
+  /** A short personal line about the project. */
   note: string
   stack: string[]
   image: ImageKey
@@ -45,7 +45,7 @@ export const projects: Project[] = [
     kind: 'Windows app',
     summary:
       'A floating water buddy for Windows. A little bottle with a face docks at the edge of the screen, fills up as you drink, and reminds you to take a break.',
-    note: 'Install it, {name}. It will remind you to drink water while you read the rest.',
+    note: 'It sits at the edge of your screen and reminds you to drink water while you work.',
     stack: ['Tauri 2', 'Rust', 'React', 'TypeScript', 'Vite'],
     image: 'projects/tumbli',
     links: [
@@ -61,7 +61,7 @@ export const projects: Project[] = [
     kind: 'Mobile + web',
     summary:
       'Queue management for campus offices: a student mobile app, an admin portal and a live display board, so nobody has to stand in line to wait.',
-    note: 'What I am building right now, {name}. Real students, real lines, real deadlines.',
+    note: 'What I am building right now. Real students, real lines, real deadlines.',
     stack: ['Expo', 'React Native', 'Next.js', 'Express', 'Prisma', 'MariaDB'],
     image: 'projects/iqueue',
     links: [],
@@ -74,7 +74,7 @@ export const projects: Project[] = [
     kind: 'Web system',
     summary:
       'Local Irrigation System Assessment for BISU Bilar. Farmer surveys plotted on a map, reports for the irrigation office, and AI-assisted analysis.',
-    note: 'Built for farmers in Bohol, {name}. My favorite kind of user.',
+    note: 'Built for farmers in Bohol. My favorite kind of user.',
     stack: ['React', 'Express', 'OpenLayers', 'MySQL'],
     image: 'projects/lisa',
     links: [{ label: 'Visit site', href: 'https://lisa.bisubilar.org/' }],
@@ -87,7 +87,7 @@ export const projects: Project[] = [
     kind: 'Point of sale',
     summary:
       'Point-of-sale and inventory workspace for a pharmacy: barcode encoding, batch and expiry tracking, suppliers, and role-based screens for owners, admins and cashiers.',
-    note: 'Used behind a real counter every day, {name}.',
+    note: 'Used behind a real counter every day.',
     stack: ['React', 'TypeScript', 'Vite', 'NestJS', 'MySQL'],
     image: 'projects/dagohoy',
     links: [

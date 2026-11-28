@@ -13,7 +13,7 @@ function App() {
   const view = {
     home: <Home />,
     about: <About />,
-    work: <Work />,
+    work: <Work slug={route.name === 'project' ? route.slug : undefined} />,
     certificates: <Certificates />,
     contact: <Contact />,
   }[sectionOf(route)]
