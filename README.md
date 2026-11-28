@@ -15,6 +15,13 @@ Personal portfolio of **Niel Adrian Garig**, full-stack developer from Bohol, Ph
   now, as little dot-matrix faces, and which section each of them is reading,
   like the "seen" heads in a group chat. Nobody is identified and nothing is
   stored: each open tab is a random id on a Supabase Realtime Presence channel.
+- **Maya, the guide bird.** A little ink sparrow (a "maya", the bird you see
+  everywhere in the Philippines) flies between headings, images and buttons,
+  perches on them and says what to check out next. On a page switch she hops
+  onto the sidebar first, then explores the new view. She follows you as you
+  scroll; click her for a random line. Perches are plain HTML attributes:
+  `data-say="…"` (her line) and optional `data-perch="text|center|start"`.
+  Logic in `src/lib/guide.ts`, sprite in `src/components/Bird.tsx`.
 - **Text comes into focus** word by word as it scrolls into view.
 - **Images are built by a swarm of cursors** that reveal them tile by tile.
 - Everything respects `prefers-reduced-motion`.
