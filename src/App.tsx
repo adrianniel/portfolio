@@ -1,6 +1,7 @@
 import { About } from './components/About'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
+import { Work } from './components/Work'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <main id="main" className="mx-auto max-w-[52rem] px-5 pb-32 sm:px-8">
         <Hero />
         <About />
+        <Work />
       </main>
     </div>
   )
