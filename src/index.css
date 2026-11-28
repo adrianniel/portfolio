@@ -102,11 +102,12 @@
   visibility: hidden;
 }
 
-/* Each view comes into focus the same way the text does. */
+/* Each view slides in softly; the text inside still sharpens word by word. */
+/* Opacity and transform only: they stay on the compositor, so even the big
+   dot-matrix name does not have to be re-rasterized every frame. */
 @keyframes view-in {
   from {
     opacity: 0;
-    filter: blur(6px);
     transform: translateY(10px);
   }
 }
