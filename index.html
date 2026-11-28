@@ -13,6 +13,10 @@
     <meta name="color-scheme" content="light" />
     <link rel="canonical" href="https://adrianniel.github.io/portfolio/" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <!-- A deep link like #/work hides the prerendered home view until the app swaps it in. -->
+    <script>
+      if (location.hash.length > 2 && location.hash.startsWith('#/')) document.documentElement.classList.add('deep-link')
+    </script>
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Niel Adrian" />

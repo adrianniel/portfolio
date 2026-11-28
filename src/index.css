@@ -97,6 +97,11 @@
   }
 }
 
+/* Hidden only until the app has rendered a deep-linked view (see index.html). */
+.deep-link #view {
+  visibility: hidden;
+}
+
 /* Each view comes into focus the same way the text does. */
 @keyframes view-in {
   from {

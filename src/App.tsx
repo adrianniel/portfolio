@@ -7,10 +7,12 @@ import { Sidebar } from './components/Sidebar'
 import { Work } from './components/Work'
 import { usePresenceReporter } from './lib/presence'
 import { keyOf, sectionOf, useRoute } from './lib/router'
+import { useRouteEffects } from './lib/useRouteEffects'
 
 function App() {
   const route = useRoute()
   usePresenceReporter(sectionOf(route))
+  useRouteEffects(route)
 
   const view = {
     home: <Home />,
@@ -35,7 +37,7 @@ function App() {
       <div className="mx-auto max-w-[78rem] lg:grid lg:grid-cols-[17rem_minmax(0,1fr)]">
         <Sidebar route={route} />
         <main id="main" tabIndex={-1} className="min-w-0 px-5 pt-10 pb-12 focus:outline-none sm:px-10 lg:px-16 lg:pt-20">
-          <div key={keyOf(route)} className="view-in max-w-[46rem]">
+          <div key={keyOf(route)} id="view" className="view-in max-w-[46rem]">
             {view}
           </div>
           <Footer />
