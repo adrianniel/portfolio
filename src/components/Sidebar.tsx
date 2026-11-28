@@ -3,6 +3,7 @@ import { certificates, profile, projects } from '../data/content'
 import { keyOf, sectionOf, to } from '../lib/router'
 import type { Route, RouteName } from '../lib/router'
 import { Clock } from './Clock'
+import { PresenceSummary, SectionHeads } from './Presence'
 
 type Item = { name: Exclude<RouteName, 'project'>; n: string; label: string; count?: number }
 
@@ -37,7 +38,7 @@ function NavList({ active, large = false, onNavigate }: { active: RouteName; lar
               href={to({ name: item.name })}
               onClick={onNavigate}
               aria-current={current ? 'page' : undefined}
-              className={`group relative flex items-baseline gap-3 transition-colors ${
+              className={`group relative flex w-full items-baseline gap-3 transition-colors ${
                 large ? 'py-1.5' : 'py-1.5'
               } ${current ? 'text-ink' : 'text-ink-soft hover:text-ink'}`}
             >
@@ -56,6 +57,9 @@ function NavList({ active, large = false, onNavigate }: { active: RouteName; lar
                   {item.count}
                 </span>
               )}
+              <span className="ml-auto self-center pl-2">
+                <SectionHeads section={item.name} />
+              </span>
             </a>
           </li>
         )
@@ -99,6 +103,7 @@ export function Sidebar({ route }: { route: Route }) {
         </nav>
 
         <div className="mt-auto space-y-5">
+          <PresenceSummary />
           <Status />
           <p className="label">
             Bohol, PH · <Clock timeZone={profile.timeZone} />
@@ -121,6 +126,7 @@ export function Sidebar({ route }: { route: Route }) {
           Niel Adrian
         </a>
         <div className="flex items-center gap-4">
+          <PresenceSummary compact />
           <span className="label">{NAV.find((i) => i.name === active)?.label}</span>
           <button
             type="button"
@@ -154,6 +160,7 @@ export function Sidebar({ route }: { route: Route }) {
             <NavList active={active} large onNavigate={close} />
           </nav>
           <div className="mt-auto space-y-4 pb-4">
+            <PresenceSummary />
             <Status />
             <p className="label">
               Bohol, PH · <Clock timeZone={profile.timeZone} />

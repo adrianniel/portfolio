@@ -5,10 +5,12 @@ import { Footer } from './components/Footer'
 import { Home } from './components/Home'
 import { Sidebar } from './components/Sidebar'
 import { Work } from './components/Work'
+import { usePresenceReporter } from './lib/presence'
 import { keyOf, sectionOf, useRoute } from './lib/router'
 
 function App() {
   const route = useRoute()
+  usePresenceReporter(sectionOf(route))
 
   const view = {
     home: <Home />,
