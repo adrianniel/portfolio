@@ -3,7 +3,7 @@ import { profile } from '../data/content'
 import { useViewer } from '../lib/viewer'
 import { Clock } from './Clock'
 import { Reveal } from './Reveal'
-import { Section } from './Section'
+import { View } from './View'
 
 export function Contact() {
   const { name, say } = useViewer()
@@ -23,7 +23,7 @@ export function Contact() {
   }
 
   return (
-    <Section id="contact" number="04" kicker="Contact" title={say("Let's build something, {name}.")}>
+    <View number="04" kicker="Contact" title={say("Let's build something, {name}.")}>
       <Reveal className="max-w-[32rem] text-lg leading-relaxed text-ink-soft text-pretty">
         I'm open to internships, freelance work and good conversations about software. Write to me and I'll get
         back to you within a day or two.
@@ -67,6 +67,6 @@ export function Contact() {
           </dd>
         </div>
       </dl>
-    </Section>
+    </View>
   )
 }

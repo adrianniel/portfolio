@@ -2,7 +2,8 @@ import { projects } from '../data/content'
 import type { Project } from '../data/content'
 import { useViewer } from '../lib/viewer'
 import { Reveal } from './Reveal'
-import { Section } from './Section'
+import { View } from './View'
+import { to } from '../lib/router'
 import { SwarmImage } from './SwarmImage'
 
 const host = (href: string) => new URL(href).hostname.replace(/^www\./, '')
@@ -88,12 +89,12 @@ export function Work() {
   const { say } = useViewer()
 
   return (
-    <Section id="work" number="02" kicker="Selected work" title={say('Things I have built, {name}.')}>
+    <View number="02" kicker="Selected work" title={say('Things I have built, {name}.')} next={{ label: 'Certificates', href: to({ name: 'certificates' }) }}>
       <div className="space-y-24 sm:space-y-32">
         {projects.map((project, i) => (
           <ProjectCard key={project.slug} project={project} index={i} />
         ))}
       </div>
-    </Section>
+    </View>
   )
 }

@@ -2,7 +2,7 @@ import { About } from './components/About'
 import { Certificates } from './components/Certificates'
 import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
-import { Hero } from './components/Hero'
+import { Home } from './components/Home'
 import { Sidebar } from './components/Sidebar'
 import { Work } from './components/Work'
 import { keyOf, sectionOf, useRoute } from './lib/router'
@@ -11,7 +11,7 @@ function App() {
   const route = useRoute()
 
   const view = {
-    home: <Hero />,
+    home: <Home />,
     about: <About />,
     work: <Work />,
     certificates: <Certificates />,
