@@ -90,6 +90,36 @@
   }
 }
 
+/* The one color that does not get along: only for what should be clicked. */
+@utility btn-ember {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  background: var(--color-ember);
+  color: var(--color-cream);
+  padding: 0.55rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 560;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color 0.3s var(--ease-out-expo),
+    transform 0.3s var(--ease-out-expo);
+
+  &:hover {
+    background: var(--color-ember-hot);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:focus-visible {
+    outline-color: var(--color-ember);
+  }
+}
+
 /* Small mono label used for section numbers and meta text. */
 @utility label {
   font-family: var(--font-mono);

@@ -1,14 +1,17 @@
+import { Header } from './components/Header'
+import { Hero } from './components/Hero'
+
 function App() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-neutral-950 px-6 text-center text-neutral-100">
-      <p className="text-sm tracking-widest text-neutral-500 uppercase">
-        Portfolio
-      </p>
-      <h1 className="text-4xl font-bold sm:text-6xl">Niel Adrian</h1>
-      <p className="max-w-md text-neutral-400">
-        Something new is being built here. Check back soon.
-      </p>
-    </main>
+    <div className="grain min-h-dvh">
+      <a href="#main" className="label sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-cream focus:p-2">
+        Skip to content
+      </a>
+      <Header />
+      <main id="main" className="mx-auto max-w-[52rem] px-5 pb-32 sm:px-8">
+        <Hero />
+      </main>
+    </div>
   )
 }
 

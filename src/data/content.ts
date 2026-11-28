@@ -7,7 +7,7 @@ export const profile = {
   location: 'Bohol, Philippines',
   timeZone: 'Asia/Manila',
   lab: 'MAKASA Laboratory',
-  status: 'Building iQueue, a campus queueing platform',
+  status: 'Now building iQueue',
   email: 'adrianniel.garig@gmail.com',
   github: 'https://github.com/adrianniel',
   githubHandle: 'adrianniel',
