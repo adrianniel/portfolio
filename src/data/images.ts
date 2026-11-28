@@ -53,6 +53,42 @@ export const images = {
     ],
     "width": 1920,
     "height": 1200
+  },
+  "certificates/codechum-cpp-data-structures": {
+    "base": "img/certificates/codechum-cpp-data-structures",
+    "widths": [
+      600,
+      1400
+    ],
+    "width": 3300,
+    "height": 2550
+  },
+  "certificates/codechum-information-management": {
+    "base": "img/certificates/codechum-information-management",
+    "widths": [
+      600,
+      1400
+    ],
+    "width": 3300,
+    "height": 2550
+  },
+  "certificates/codechum-java-oop": {
+    "base": "img/certificates/codechum-java-oop",
+    "widths": [
+      600,
+      1400
+    ],
+    "width": 3300,
+    "height": 2550
+  },
+  "certificates/fcc-responsive-web-design": {
+    "base": "img/certificates/fcc-responsive-web-design",
+    "widths": [
+      600,
+      1225
+    ],
+    "width": 1225,
+    "height": 821
   }
 } as const satisfies Record<string, ImageAsset>
 
