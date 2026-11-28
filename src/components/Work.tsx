@@ -2,7 +2,6 @@ import { useRef, useState } from 'react'
 import type { PointerEvent } from 'react'
 import { projects } from '../data/content'
 import type { Project } from '../data/content'
-import { sized } from '../lib/img'
 import { to } from '../lib/router'
 import { Reveal } from './Reveal'
 import { SwarmImage } from './SwarmImage'
@@ -71,15 +70,11 @@ function WorkList() {
                     {project.status} · {project.year} · {project.kind}
                   </span>
                 </span>
+                {/* Touch screens cannot hover, so the short note sits in the row. */}
+                <span className="mt-2.5 hidden max-w-[30rem] text-[0.95rem] leading-snug text-pretty no-hover:block">
+                  {project.short}
+                </span>
               </span>
-              {/* Touch screens get a thumbnail; mouse users get the floating preview. */}
-              <img
-                src={sized(project.image, 720)}
-                alt=""
-                loading="lazy"
-                decoding="async"
-                className="hidden aspect-[16/10] w-20 rounded-[2px] object-cover ring-1 ring-ink/15 no-hover:block sm:w-28"
-              />
               <span
                 aria-hidden="true"
                 className="hidden font-mono text-sm transition-transform duration-500 ease-out-expo group-hover:translate-x-1 can-hover:inline"
