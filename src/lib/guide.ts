@@ -310,7 +310,15 @@ export class GuideController {
       if (p) return { x: clamp(p.x, 20, window.innerWidth - 24), y: p.y }
     }
     const r = spot.getBoundingClientRect()
-    if (mode === 'center') return { x: r.left + r.width / 2, y: r.top }
+    // data-perch-x picks the spot along the top edge (a cut-out's head, say).
+    // data-perch-y (a share of the width) drops her onto a head that starts
+    // a little below the image's edge.
+    if (mode === 'center')
+      return {
+        x: r.left + r.width * (Number(spot.dataset.perchX) || 0.5),
+        // +2px on a head: the outermost strands are soft, so settle into the hair.
+        y: r.top + (spot.dataset.perchY ? r.width * Number(spot.dataset.perchY) + 2 : 0),
+      }
     return { x: r.left + Math.min(r.width * 0.7, 150), y: r.top }
   }
 

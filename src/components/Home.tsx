@@ -35,14 +35,15 @@ export function Home() {
 
         <SwarmImage
           image="niel"
-          alt="Portrait of Niel Adrian Garig, smiling, in a dark sweater"
+          alt="Niel Adrian Garig, smiling, in a dark sweater"
           sizes="(min-width: 640px) 12rem, 11rem"
           priority
           duration={1800}
-          aspect="4 / 5"
+          aspect="3 / 4"
           say="That's Niel. He built everything here."
-          imgClassName="object-[50%_18%]"
-          className="mx-auto w-44 rounded-[3px] sm:w-full"
+          // A cut-out: no box, head to chest, fading out towards the bottom.
+          imgClassName="object-cover object-top [mask-image:linear-gradient(to_bottom,black_72%,transparent)]"
+          className="mx-auto w-48 sm:w-full"
         />
       </div>
 

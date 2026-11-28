@@ -284,6 +284,8 @@ export function SwarmImage({
       ref={ref}
       data-say={say}
       data-perch={say ? 'center' : undefined}
+      data-perch-x={say && 'perchX' in asset ? asset.perchX : undefined}
+      data-perch-y={say && 'perchY' in asset ? asset.perchY : undefined}
       className={`relative overflow-hidden ${className}`}
       style={{ aspectRatio: aspect ?? `${asset.width} / ${asset.height}` }}
     >
