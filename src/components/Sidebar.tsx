@@ -49,7 +49,11 @@ function NavList({ active, large = false, onNavigate }: { active: RouteName; lar
                 } ${large ? 'hidden' : ''}`}
               />
               <span className="label">{item.n}</span>
-              <span className={large ? 'font-display text-[2.6rem] leading-none' : 'text-[0.95rem]'}>
+              <span
+                data-guide-nav
+                data-perch="center"
+                className={large ? 'font-display text-[2.6rem] leading-none' : 'text-[0.95rem]'}
+              >
                 {item.label}
               </span>
               {item.count !== undefined && (

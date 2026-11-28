@@ -2,6 +2,7 @@ import { About } from './components/About'
 import { Certificates } from './components/Certificates'
 import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
+import { Guide } from './components/Guide'
 import { Home } from './components/Home'
 import { Sidebar } from './components/Sidebar'
 import { Work } from './components/Work'
@@ -43,6 +44,7 @@ function App() {
           <Footer />
         </main>
       </div>
+      <Guide section={sectionOf(route)} routeKey={keyOf(route)} />
     </div>
   )
 }
