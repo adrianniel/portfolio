@@ -7,8 +7,8 @@ import type { Section } from './router'
  *   "center" stands on the middle of the element's top edge
  *   "start"  stands on the top edge, towards the left (default)
  *
- * She flies like a hummingbird: a quick dart, a hover in front of the perch
- * with a little bob, then a soft settle. Perched, she breathes, blinks, looks
+ * She flies like a hummingbird: a quick, smooth dart, a short hover in front
+ * of the perch with a little bob, then a soft settle. Perched, she breathes, blinks, looks
  * around, preens, flicks her tail and now and then buzzes round to face the
  * other way. On a page switch she first hops onto the sidebar, so she is
  * never swept away with the old view. Plain DOM and requestAnimationFrame:
@@ -17,6 +17,12 @@ import type { Section } from './router'
 
 type Point = { x: number; y: number }
 type Spot = HTMLElement | Point
+/**
+ * A measured perch. Points in the page are kept in document coordinates, so
+ * following a scroll is just subtracting scrollY; nothing is re-measured.
+ * Points in the sidebar or on her branch stay put on screen (fixed).
+ */
+type Fix = { x: number; y: number; fixed: boolean }
 
 // Where her feet are inside the 40×40 sprite.
 const FOOT_X = 18.5
@@ -56,7 +62,8 @@ const ACT_CLASSES = ['act-blink', 'act-look', 'act-preen', 'act-tail', 'act-buzz
 
 const isPoint = (s: Spot): s is Point => !(s instanceof HTMLElement)
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n))
-const easeInOut = (t: number) => (t < 0.5 ? 16 * t ** 5 : 1 - (-2 * t + 2) ** 5 / 2)
+// Cubic, not quintic: a sharper curve sits still at the start and reads as lag.
+const easeInOut = (t: number) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2)
 const easeOut = (t: number) => 1 - (1 - t) ** 3
 const isShown = (el: Element) => {
   const r = el.getBoundingClientRect()
@@ -182,6 +189,9 @@ export class GuideController {
   private section: Section | null = null
   private seen = new Set<Element>()
   private face = 1
+  private tilt = 0
+  private perch: Fix | null = null
+  private bubbleSize = { w: 0, h: 0 }
   private flight = 0
   private scrollFrame = 0
   private settleTimer = 0
@@ -206,7 +216,8 @@ export class GuideController {
     // She starts the visit at home, in her nest on the branch.
     this.showHome(true)
     this.spot = this.home
-    this.pos = this.anchor(this.home)
+    this.perch = this.measure(this.home)
+    this.pos = this.onScreen(this.perch)
     this.setFace(-1)
     this.bird.classList.add('is-nesting')
     this.place(this.pos)
@@ -271,7 +282,7 @@ export class GuideController {
       this.fly(next, line ?? next.dataset.say ?? '')
       return
     }
-    if (this.spot && this.visible(this.anchor(this.spot))) {
+    if (this.spot && !this.flight && this.visible(this.pos)) {
       this.scheduleNext(9000)
       return
     }
@@ -303,6 +314,18 @@ export class GuideController {
     return { x: r.left + Math.min(r.width * 0.7, 150), y: r.top }
   }
 
+  /** Measures a perch once (layout reads happen here, not every frame). */
+  private measure(spot: Spot): Fix {
+    const p = this.anchor(spot)
+    const fixed = isPoint(spot) || spot.closest('aside, .guide-home') !== null
+    return fixed ? { ...p, fixed } : { x: p.x + window.scrollX, y: p.y + window.scrollY, fixed }
+  }
+
+  /** Where a measured perch is on screen right now. Cheap: no layout. */
+  private onScreen(f: Fix): Point {
+    return f.fixed ? { x: f.x, y: f.y } : { x: f.x - window.scrollX, y: f.y - window.scrollY }
+  }
+
   private visible(p: Point) {
     const inSidebar = p.x < 280 && window.innerWidth >= 1024
     const top = inSidebar ? 40 : TOP_SAFE + 24
@@ -323,12 +346,15 @@ export class GuideController {
   }
 
   private setTilt(deg: number) {
-    this.bird.style.setProperty('--tilt', `${deg}deg`)
+    const rounded = Math.round(deg)
+    if (rounded === this.tilt) return
+    this.tilt = rounded
+    this.bird.style.setProperty('--tilt', `${rounded}deg`)
   }
 
   /**
-   * Hummingbird flight: lift off, dart (with a mid-air pause on long trips),
-   * hover in front of the perch with a little bob, then settle onto it.
+   * Hummingbird flight: lift off, dart, hover in front of the perch with a
+   * little bob, then settle onto it.
    */
   private fly(spot: Spot, line: string, then = 8500) {
     cancelAnimationFrame(this.flight)
@@ -348,10 +374,13 @@ export class GuideController {
     this.bird.classList.remove('is-nesting')
 
     const from = { ...this.pos }
-    const first = this.anchor(spot)
+    let target = this.measure(spot)
+    let measuredAt = 0
+    const first = this.onScreen(target)
     const dist = Math.hypot(first.x - from.x, first.y - from.y)
 
     if (this.reduce || dist < 4) {
+      this.perch = target
       this.place(first)
       this.land(line, then)
       return
@@ -362,56 +391,52 @@ export class GuideController {
     this.bird.classList.remove('is-landing')
     this.bird.classList.add('is-flying')
 
-    const T_LIFT = 140
-    const T_DART = clamp(dist * 0.55, 240, 820)
-    const T_HOVER = 420 + Math.random() * 280
-    const T_SETTLE = 260
-    const pauseMid = dist > 520
-    const wobble = (Math.random() - 0.5) * 50
+    const T_LIFT = 110
+    // Slow enough that she never jumps more than ~30px in one frame.
+    const T_DART = clamp(dist * 1.05, 400, 1150)
+    const T_HOVER = 260 + Math.random() * 180
+    const T_SETTLE = 220
+    const wobble = (Math.random() - 0.5) * 40
 
     // Hover a little before and above the perch, facing it.
     const hoverOf = (to: Point) => ({ x: to.x - face * 12, y: to.y - 18 })
-    const lifted = { x: from.x, y: from.y - 9 }
+    const lifted = { x: from.x, y: from.y - 8 }
     const start = performance.now()
 
     const step = () => {
       const t = performance.now() - start
-      const to = this.anchor(spot) // keeps up if the page scrolls mid-flight
+      // Re-measure a few times a second (the page may still be settling);
+      // in between, only the scroll offset is applied.
+      if (t - measuredAt > 200) {
+        target = this.measure(spot)
+        measuredAt = t
+      }
+      const to = this.onScreen(target)
       const hover = hoverOf(to)
-      const bob = { x: Math.sin(t / 130) * 1.2, y: Math.sin(t / 85) * 1.8 }
 
       if (t < T_LIFT) {
         this.setTilt(-6)
-        this.place({ x: from.x, y: from.y - 9 * easeOut(t / T_LIFT) })
+        this.place({ x: from.x, y: from.y - 8 * easeOut(t / T_LIFT) })
       } else if (t < T_LIFT + T_DART) {
-        const raw = (t - T_LIFT) / T_DART
-        let e: number
-        let paused = false
-        if (pauseMid) {
-          // Long trips stop halfway for a breath in the air.
-          if (raw < 0.42) e = easeInOut(raw / 0.42) / 2
-          else if (raw < 0.58) {
-            e = 0.5
-            paused = true
-          } else e = 0.5 + easeInOut((raw - 0.58) / 0.42) / 2
-        } else e = easeInOut(raw)
+        const e = easeInOut((t - T_LIFT) / T_DART)
         // A shallow arc, not a lob: hummingbirds fly fairly straight.
-        const arc = Math.sin(Math.PI * e) * (Math.min(40, dist * 0.08) + wobble * 0.3)
-        this.setTilt(paused ? -6 : 22)
-        this.place({
-          x: lifted.x + (hover.x - lifted.x) * e + (paused ? bob.x : 0),
-          y: lifted.y + (hover.y - lifted.y) * e - arc + (paused ? bob.y : 0),
-        })
+        const arc = Math.sin(Math.PI * e) * (Math.min(36, dist * 0.07) + wobble * 0.3)
+        this.setTilt(e < 0.85 ? 22 : -4)
+        this.place({ x: lifted.x + (hover.x - lifted.x) * e, y: lifted.y + (hover.y - lifted.y) * e - arc })
       } else if (t < T_LIFT + T_DART + T_HOVER) {
+        // The bob fades in, so arriving at the hover point never jumps.
+        const h = t - T_LIFT - T_DART
+        const amp = Math.min(1, h / 160)
         this.setTilt(-8)
-        this.place({ x: hover.x + bob.x, y: hover.y + bob.y })
+        this.place({ x: hover.x + Math.sin(h / 130) * 1.1 * amp, y: hover.y + Math.sin(h / 85) * 1.7 * amp })
       } else if (t < T_LIFT + T_DART + T_HOVER + T_SETTLE) {
-        const p = easeOut((t - T_LIFT - T_DART - T_HOVER) / T_SETTLE)
+        const p = easeInOut((t - T_LIFT - T_DART - T_HOVER) / T_SETTLE)
         this.setTilt(-8 * (1 - p))
         this.place({ x: hover.x + (to.x - hover.x) * p, y: hover.y + (to.y - hover.y) * p })
       } else {
         this.flight = 0
-        this.place(to)
+        this.perch = this.measure(spot)
+        this.place(this.onScreen(this.perch))
         this.land(line, then)
         return
       }
@@ -445,7 +470,9 @@ export class GuideController {
 
   /** Snaps back onto the perch if it moved under her feet. */
   private refresh() {
-    if (!this.flight && this.spot) this.place(this.anchor(this.spot))
+    if (this.flight || !this.spot) return
+    this.perch = this.measure(this.spot)
+    this.place(this.onScreen(this.perch))
   }
 
   // --- life while perched ------------------------------------------------------------
@@ -496,6 +523,8 @@ export class GuideController {
     }
     this.bubble.textContent = line
     this.bubble.classList.add('is-shown')
+    // Measured once per line, so following a scroll never reads layout.
+    this.bubbleSize = { w: this.bubble.offsetWidth, h: this.bubble.offsetHeight }
     this.placeBubble()
     this.hideTimer = window.setTimeout(() => this.hideBubble(), 3800 + line.length * 30)
   }
@@ -505,8 +534,7 @@ export class GuideController {
   }
 
   private placeBubble() {
-    const w = this.bubble.offsetWidth
-    const h = this.bubble.offsetHeight
+    const { w, h } = this.bubbleSize
     const left = clamp(this.pos.x - 24, 8, window.innerWidth - w - 8)
     const top = Math.max(8, this.pos.y - FOOT_Y - h - 2)
     this.bubble.style.transform = `translate3d(${left}px, ${top}px, 0)`
@@ -519,7 +547,7 @@ export class GuideController {
     if (!this.scrollFrame) {
       this.scrollFrame = requestAnimationFrame(() => {
         this.scrollFrame = 0
-        if (!this.flight && this.spot) this.place(this.anchor(this.spot))
+        if (!this.flight && this.perch) this.place(this.onScreen(this.perch))
       })
     }
     clearTimeout(this.settleTimer)
@@ -529,7 +557,8 @@ export class GuideController {
   /** After scrolling stops: follow the reader if her perch left the screen. */
   private settled = () => {
     if (this.flight || !this.spot || this.section === null) return
-    const offscreen = !this.visible(this.anchor(this.spot))
+    this.refresh()
+    const offscreen = !this.visible(this.pos)
     const fresh = this.candidates().some((el) => !this.seen.has(el))
     const talking = this.bubble.classList.contains('is-shown')
     if (offscreen || (fresh && !talking)) this.tour()
