@@ -277,6 +277,63 @@
     animation: home-sway 0.9s ease-out;
   }
 
+  /* Asleep: eyes shut, head tucked down, slow breaths. */
+  .hb-head {
+    transition: transform 0.9s ease-in-out;
+  }
+
+  .is-sleeping .hb-eye {
+    transform: scaleY(0.12);
+  }
+
+  .is-sleeping .hb-head {
+    transform: rotate(26deg) translate(-0.6px, 1.6px);
+  }
+
+  .is-sleeping .hb-body {
+    animation-duration: 4.8s;
+  }
+
+  /* Three letters drifting up from her head while she sleeps. */
+  .guide-zzz {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    color: var(--color-ink);
+    font-family: var(--font-dot);
+    font-weight: 900;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .guide-zzz.is-shown {
+    opacity: 1;
+  }
+
+  .guide-zzz span {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    opacity: 0;
+    animation: zzz 3s ease-in-out infinite;
+  }
+
+  .guide-zzz span:nth-child(1) {
+    font-size: 10px;
+  }
+
+  .guide-zzz span:nth-child(2) {
+    font-size: 13px;
+    animation-delay: 1s;
+  }
+
+  .guide-zzz span:nth-child(3) {
+    font-size: 17px;
+    animation-delay: 2s;
+  }
+
   /* Sitting in the nest: feet tucked away. */
   .is-nesting .hb-legs {
     display: none;
@@ -328,9 +385,36 @@
     .hb-wing-b,
     .act-look .hb-head,
     .act-preen .hb-head,
-    .act-tail .hb-tail {
+    .act-tail .hb-tail,
+    .guide-zzz span {
       animation: none;
     }
+
+    .guide-zzz span {
+      opacity: 1;
+    }
+
+    .guide-zzz span:nth-child(2) {
+      transform: translate(-7px, -12px);
+    }
+
+    .guide-zzz span:nth-child(3) {
+      transform: translate(-15px, -26px);
+    }
+  }
+}
+
+@keyframes zzz {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(-6deg);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-16px, -30px) rotate(8deg);
   }
 }
 

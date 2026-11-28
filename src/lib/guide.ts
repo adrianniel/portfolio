@@ -39,6 +39,8 @@ const ON_SWITCH: Record<Section, string> = {
   contact: 'Contact! Good choice.',
 }
 
+const SLEEP_TALK = ['Zzz… five more minutes.', 'Mmh… it is night. Flip the moon to wake me.', 'Zzz…']
+
 const POKES = [
   'Bzzz! That tickles.',
   'My wings beat about 50 times a second. Show-off, I know.',
@@ -205,11 +207,19 @@ export class GuideController {
   private readonly bubble: HTMLElement
   private readonly homes: HTMLElement[]
   private readonly home: HTMLElement
+  private readonly zzz: HTMLElement
+  private night = false
+  private asleep = false
+  private introduced = false
+  /** True until her first flight: the page has only just opened. */
+  private fresh = true
+  private sleepTimer = 0
 
-  constructor(bird: HTMLElement, bubble: HTMLElement, homes: HTMLElement[]) {
+  constructor(bird: HTMLElement, bubble: HTMLElement, homes: HTMLElement[], zzz: HTMLElement) {
     this.bird = bird
     this.bubble = bubble
     this.homes = homes
+    this.zzz = zzz
     this.home = homes[0].querySelector<HTMLElement>('[data-home-perch]') ?? homes[0]
     this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     // She starts the visit at home, in her nest on the branch.
@@ -228,7 +238,7 @@ export class GuideController {
     window.removeEventListener('resize', this.onScroll)
     cancelAnimationFrame(this.flight)
     cancelAnimationFrame(this.scrollFrame)
-    for (const t of [this.settleTimer, this.nextTimer, this.hideTimer, this.startTimer, this.idleTimer, this.actTimer])
+    for (const t of [this.settleTimer, this.nextTimer, this.hideTimer, this.startTimer, this.idleTimer, this.actTimer, this.sleepTimer])
       clearTimeout(t)
   }
 
@@ -239,6 +249,7 @@ export class GuideController {
     this.seen.clear()
     clearTimeout(this.nextTimer)
     clearTimeout(this.startTimer)
+    if (this.night) return // asleep in the nest; the page can change without her
 
     if (first) {
       this.startTimer = window.setTimeout(() => this.tour(INTRO), 1200)
@@ -253,9 +264,67 @@ export class GuideController {
   /** A click on Pip: a buzz of the wings and a random line. */
   poke() {
     if (this.flight) return
+    if (this.asleep) {
+      // A sleepy mumble; she does not get up.
+      this.act('tail', 500)
+      this.say(SLEEP_TALK[Math.floor(Math.random() * SLEEP_TALK.length)])
+      return
+    }
     this.act('buzz', 650)
     this.say(POKES[Math.floor(Math.random() * POKES.length)])
     this.scheduleNext(9000)
+  }
+
+  /**
+   * Night and day. At night she flies home, says goodnight and sleeps in her
+   * nest (quietly, if the page simply opened at night); at sunrise she wakes,
+   * stretches her wings and carries on with the tour.
+   */
+  setNight(night: boolean) {
+    // Opening the page at night: she is already asleep, no goodnight.
+    const quiet = this.fresh
+    if (night === this.night) return
+    this.night = night
+    clearTimeout(this.nextTimer)
+    clearTimeout(this.startTimer)
+    clearTimeout(this.sleepTimer)
+
+    if (night) {
+      this.stopIdle()
+      const home = this.spot === this.home && !this.flight
+      if (home) {
+        if (quiet) this.fallAsleep()
+        else {
+          this.say('Goodnight!')
+          this.sleepTimer = window.setTimeout(() => this.fallAsleep(), 1600)
+        }
+      } else this.fly(this.home, 'Time to sleep. Goodnight!', 0)
+      return
+    }
+    this.wake()
+  }
+
+  private fallAsleep() {
+    if (!this.night) return
+    this.asleep = true
+    this.hideBubble()
+    this.stopIdle()
+    this.bird.classList.add('is-sleeping')
+    // The Zzz drift up from just above her head.
+    const p = this.pos
+    this.zzz.style.transform = `translate3d(${p.x + this.face * 4}px, ${p.y - 34}px, 0)`
+    this.zzz.classList.add('is-shown')
+  }
+
+  private wake() {
+    this.asleep = false
+    this.bird.classList.remove('is-sleeping')
+    this.zzz.classList.remove('is-shown')
+    this.act('buzz', 650)
+    this.say(this.introduced ? 'Good morning!' : INTRO)
+    this.introduced = true
+    this.startIdle()
+    this.scheduleNext(2600)
   }
 
   // --- choosing where to go --------------------------------------------------------
@@ -274,6 +343,8 @@ export class GuideController {
 
   /** Flies to the next thing worth seeing, or rests if she has said it all. */
   private tour(line?: string) {
+    if (this.night) return
+    if (line === INTRO) this.introduced = true
     const next = this.candidates().find((el) => !this.seen.has(el) && el !== this.spot)
     if (next) {
       this.seen.add(next)
@@ -361,6 +432,7 @@ export class GuideController {
   private fly(spot: Spot, line: string, then = 8500) {
     cancelAnimationFrame(this.flight)
     this.flight = 0
+    this.fresh = false
     this.spot = spot
     this.hideBubble()
     this.stopIdle()
@@ -456,6 +528,13 @@ export class GuideController {
       }
     }
     this.say(line)
+    if (this.night) {
+      if (this.spot === this.home) {
+        clearTimeout(this.sleepTimer)
+        this.sleepTimer = window.setTimeout(() => this.fallAsleep(), line ? 1600 : 200)
+      }
+      return
+    }
     this.scheduleNext(then)
     this.startIdle()
     // Text may still be sliding into place (view and word reveals): re-check.
@@ -475,7 +554,7 @@ export class GuideController {
   private startIdle() {
     clearTimeout(this.idleTimer)
     this.idleTimer = window.setTimeout(() => {
-      if (this.flight) return
+      if (this.flight || this.asleep) return
       this.refresh()
       const total = ACTS.reduce((n, [, w]) => n + w, 0)
       let roll = Math.random() * total
@@ -551,7 +630,7 @@ export class GuideController {
 
   /** After scrolling stops: follow the reader if her perch left the screen. */
   private settled = () => {
-    if (this.flight || !this.spot || this.section === null) return
+    if (this.flight || !this.spot || this.section === null || this.night) return
     this.refresh()
     const offscreen = !this.visible(this.pos)
     const fresh = this.candidates().some((el) => !this.seen.has(el))

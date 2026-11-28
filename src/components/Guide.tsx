@@ -1,5 +1,6 @@
 import { useEffect, useRef, useSyncExternalStore } from 'react'
 import { GuideController } from '../lib/guide'
+import { useDark } from '../lib/theme'
 import type { Section } from '../lib/router'
 import { Bird } from './Bird'
 import { NestBack, NestFront } from './Nest'
@@ -17,11 +18,13 @@ export function Guide({ section, routeKey }: { section: Section; routeKey: strin
   const bubble = useRef<HTMLDivElement>(null)
   const homeBack = useRef<HTMLDivElement>(null)
   const homeFront = useRef<HTMLDivElement>(null)
+  const zzz = useRef<HTMLDivElement>(null)
   const guide = useRef<GuideController | null>(null)
+  const dark = useDark()
 
   useEffect(() => {
-    if (!client || !bird.current || !bubble.current || !homeBack.current || !homeFront.current) return
-    const g = new GuideController(bird.current, bubble.current, [homeBack.current, homeFront.current])
+    if (!client || !bird.current || !bubble.current || !homeBack.current || !homeFront.current || !zzz.current) return
+    const g = new GuideController(bird.current, bubble.current, [homeBack.current, homeFront.current], zzz.current)
     guide.current = g
     return () => {
       g.destroy()
@@ -32,6 +35,11 @@ export function Guide({ section, routeKey }: { section: Section; routeKey: strin
   useEffect(() => {
     guide.current?.routeChanged(section)
   }, [client, routeKey, section])
+
+  // Night mode: she goes home and sleeps; day: she wakes up.
+  useEffect(() => {
+    guide.current?.setNight(dark)
+  }, [client, dark])
 
   if (!client) return null
 
@@ -54,6 +62,11 @@ export function Guide({ section, routeKey }: { section: Section; routeKey: strin
       </button>
       <div ref={homeFront} className="guide-home">
         <NestFront />
+      </div>
+      <div ref={zzz} className="guide-zzz">
+        <span>z</span>
+        <span>z</span>
+        <span>Z</span>
       </div>
       <div ref={bubble} className="guide-bubble" />
     </div>
