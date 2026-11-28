@@ -244,6 +244,8 @@ export class GuideController {
 
   private land(line: string, then: number) {
     this.bird.classList.remove('is-flying', 'is-landing')
+    // Once down, turn to look at the page rather than off its edge.
+    this.bird.style.setProperty('--face', this.pos.x < window.innerWidth * 0.55 ? '1' : '-1')
     void this.bird.offsetWidth
     this.bird.classList.add('is-landing')
     this.say(line)
