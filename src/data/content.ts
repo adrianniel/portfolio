@@ -58,7 +58,7 @@ export const projects: Project[] = [
     name: 'iQueue',
     year: '2026',
     status: 'In progress',
-    kind: 'Mobile + web platform',
+    kind: 'Mobile + web',
     summary:
       'Queue management for campus offices: a student mobile app, an admin portal and a live display board, so nobody has to stand in line to wait.',
     note: 'What I am building right now, {name}. Real students, real lines, real deadlines.',

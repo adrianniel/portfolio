@@ -27,7 +27,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         <span>
           {String(index + 1).padStart(2, '0')} / {project.kind}
         </span>
-        <span className="flex items-center gap-2">
+        <span className="flex shrink-0 items-center gap-2 whitespace-nowrap">
           <span
             className={`size-1.5 rounded-full ${project.status === 'Live' ? 'bg-ink' : 'border border-ink'}`}
             aria-hidden="true"

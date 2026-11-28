@@ -33,6 +33,9 @@ export function Hero() {
             I'm Niel, a full-stack developer from Bohol, Philippines. I build software that real people use
             every day: a queue for a campus, surveys for farmers, a till for a pharmacy.
           </Reveal>
+          <div className="mt-10">
+            <NameField />
+          </div>
         </div>
 
         <figure className="mx-auto w-48 sm:w-full">
@@ -54,10 +57,6 @@ export function Hero() {
             {profile.status}
           </figcaption>
         </figure>
-      </div>
-
-      <div className="mt-12">
-        <NameField />
       </div>
 
       <nav aria-label="Tour" className="mt-14">

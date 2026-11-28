@@ -33,8 +33,8 @@ export function NameField() {
   }
 
   return (
-    <form onSubmit={submit} className="flex max-w-sm flex-wrap items-center gap-x-3 gap-y-2">
-      <label htmlFor={id} className="label">
+    <form onSubmit={submit} className="flex max-w-md flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+      <label htmlFor={id} className="label shrink-0">
         {name ? 'Your name' : 'What should I call you?'}
       </label>
       <span className="flex flex-1 items-center border-b border-ink/30 transition-colors focus-within:border-ink">
@@ -47,7 +47,7 @@ export function NameField() {
           maxLength={28}
           className="w-full min-w-0 bg-transparent py-1 text-base placeholder:text-ink-soft/60 focus:outline-none"
         />
-        <button type="submit" className="label px-1 py-1 transition-colors hover:text-ink" aria-label="Save name">
+        <button type="submit" className="label shrink-0 px-1 py-1 whitespace-nowrap transition-colors hover:text-ink" aria-label="Save name">
           Enter ↵
         </button>
       </span>

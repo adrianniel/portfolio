@@ -15,7 +15,7 @@ const FALLBACK = 'friend'
 export type PartOfDay = 'morning' | 'afternoon' | 'evening' | 'night'
 
 type Viewer = {
-  /** The visitor's name, or null when unknown. */
+  /** The visitor's first name, or null when unknown. */
   name: string | null
   /** Fills `{name}` in a template, using a friendly fallback. */
   say: (template: string) => string
@@ -107,16 +107,19 @@ export function ViewerProvider({ children }: { children: ReactNode }) {
     store(next)
   }, [])
 
+  // Address people by first name: "Juan Dela Cruz" reads as "Juan".
+  const first = name ? name.split(' ')[0] : null
+
   const value = useMemo<Viewer>(
     () => ({
-      name,
-      say: (template) => template.replaceAll('{name}', name ?? FALLBACK),
+      name: first,
+      say: (template) => template.replaceAll('{name}', first ?? FALLBACK),
       setName,
       partOfDay: part,
-      greeting: name ? `${GREETINGS[part]}, ${name}.` : `${GREETINGS[part]}.`,
+      greeting: first ? `${GREETINGS[part]}, ${first}.` : `${GREETINGS[part]}.`,
       invited: initial.invited,
     }),
-    [name, part, setName, initial.invited],
+    [first, part, setName, initial.invited],
   )
 
   return <ViewerContext.Provider value={value}>{children}</ViewerContext.Provider>
