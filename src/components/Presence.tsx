@@ -88,7 +88,10 @@ export function PresenceSummary({ compact = false }: { compact?: boolean }) {
   }
 
   return (
-    <div className="flex items-center gap-2.5">
+    <div
+      data-say={n > 1 ? `You're not alone. ${n} people are here!` : "It's just you and me here."}
+      className="flex items-center gap-2.5"
+    >
       <Heads people={visitors} size={26} max={5} />
       <p className="text-[0.8rem] leading-tight text-ink-soft">{sentence(n)}</p>
     </div>

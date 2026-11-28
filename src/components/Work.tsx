@@ -34,6 +34,7 @@ function WorkList() {
       number="02"
       kicker="Selected work"
       title="Things I have built."
+      say="Everything Niel has built. Pick one!"
       next={{ label: 'Certificates', href: to({ name: 'certificates' }) }}
     >
       <ol className="border-t border-ink/15" onPointerMove={follow} onPointerLeave={() => setHovered(null)}>
@@ -46,7 +47,10 @@ function WorkList() {
             >
               <span className="font-dot text-xl leading-none font-black">{pad(i + 1)}</span>
               <span>
-                <span className="font-display block text-[clamp(1.6rem,4.2vw,2.3rem)] leading-none tracking-[-0.01em] transition-transform duration-500 ease-out-expo group-hover:translate-x-1.5">
+                <span
+                  data-say={project.guide}
+                  data-perch="text"
+                  className="font-display block text-[clamp(1.6rem,4.2vw,2.3rem)] leading-none tracking-[-0.01em] transition-transform duration-500 ease-out-expo group-hover:translate-x-1.5">
                   {project.name}
                 </span>
                 <span className="mt-2.5 flex items-center gap-2 text-sm text-ink-soft">
@@ -74,7 +78,9 @@ function WorkList() {
           </li>
         ))}
       </ol>
-      <p className="label mt-5 hidden can-hover:block">Hover to peek · click to open</p>
+      <p data-say="Hover a row to peek inside." className="label mt-5 hidden can-hover:block">
+        Hover to peek · click to open
+      </p>
 
       <div
         ref={peek}
@@ -128,6 +134,7 @@ function ProjectView({ slug }: { slug: string }) {
       alt={`Preview of ${project.name}`}
       sizes="(min-width: 1024px) 46rem, calc(100vw - 2.5rem)"
       priority
+      say={primary ? 'Click the picture to open it live.' : 'Not public yet. Ask Niel for a demo!'}
       className="rounded-[3px] ring-1 ring-ink/15"
       imgClassName="transition-transform duration-[1.2s] ease-out-expo group-hover:scale-[1.025]"
     />
@@ -148,6 +155,7 @@ function ProjectView({ slug }: { slug: string }) {
         number={pad(index + 1)}
         kicker={project.kind}
         title={project.name}
+        say={project.guide}
         next={
           following
             ? { label: following.name, href: to({ name: 'project', slug: following.slug }) }
@@ -180,7 +188,7 @@ function ProjectView({ slug }: { slug: string }) {
           </div>
 
           <div className="space-y-6">
-            <div>
+            <div data-say="Built with all of this.">
               <p className="label mb-1.5">Built with</p>
               <p className="text-[0.95rem] leading-snug">{project.stack.join(' · ')}</p>
             </div>

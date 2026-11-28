@@ -31,6 +31,8 @@ export type Project = {
   summary: string
   /** A short personal line about the project. */
   note: string
+  /** What Maya, the guide bird, says about it. */
+  guide: string
   stack: string[]
   image: ImageKey
   links: { label: string; href: string }[]
@@ -46,6 +48,7 @@ export const projects: Project[] = [
     summary:
       'A floating water buddy for Windows. A little bottle with a face docks at the edge of the screen, fills up as you drink, and reminds you to take a break.',
     note: 'It sits at the edge of your screen and reminds you to drink water while you work.',
+    guide: 'Tumbli is a water buddy. Like me, but a bottle!',
     stack: ['Tauri 2', 'Rust', 'React', 'TypeScript', 'Vite'],
     image: 'projects/tumbli',
     links: [
@@ -62,6 +65,7 @@ export const projects: Project[] = [
     summary:
       'Queue management for campus offices: a student mobile app, an admin portal and a live display board, so nobody has to stand in line to wait.',
     note: 'What I am building right now. Real students, real lines, real deadlines.',
+    guide: 'iQueue: so nobody has to stand in line.',
     stack: ['Expo', 'React Native', 'Next.js', 'Express', 'Prisma', 'MariaDB'],
     image: 'projects/iqueue',
     links: [],
@@ -75,6 +79,7 @@ export const projects: Project[] = [
     summary:
       'Local Irrigation System Assessment for BISU Bilar. Farmer surveys plotted on a map, reports for the irrigation office, and AI-assisted analysis.',
     note: 'Built for farmers in Bohol. My favorite kind of user.',
+    guide: 'L.I.S.A. helps farmers right here in Bohol.',
     stack: ['React', 'Express', 'OpenLayers', 'MySQL'],
     image: 'projects/lisa',
     links: [{ label: 'Visit site', href: 'https://lisa.bisubilar.org/' }],
@@ -88,6 +93,7 @@ export const projects: Project[] = [
     summary:
       'Point-of-sale and inventory workspace for a pharmacy: barcode encoding, batch and expiry tracking, suppliers, and role-based screens for owners, admins and cashiers.',
     note: 'Used behind a real counter every day.',
+    guide: 'This one runs a real pharmacy counter.',
     stack: ['React', 'TypeScript', 'Vite', 'NestJS', 'MySQL'],
     image: 'projects/dagohoy',
     links: [

@@ -5,7 +5,7 @@ import { to } from '../lib/router'
 
 export function About() {
   return (
-    <View number="01" kicker="About" title="A little about me." next={{ label: 'Work', href: to({ name: 'work' }) }}>
+    <View number="01" kicker="About" title="A little about me." say="The short version of Niel." next={{ label: 'Work', href: to({ name: 'work' }) }}>
       <div className="grid gap-12 sm:grid-cols-[1fr_14rem]">
         <div className="space-y-6 text-lg leading-relaxed text-pretty">
           <Reveal>
@@ -22,7 +22,7 @@ export function About() {
           </Reveal>
         </div>
 
-        <dl className="space-y-5">
+        <dl data-say="His toolbox, front to back." className="space-y-5">
           {stack.map((g) => (
             <div key={g.group}>
               <dt className="label mb-1.5">{g.group}</dt>

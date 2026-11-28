@@ -18,7 +18,7 @@ export function Certificates() {
   const close = () => dialog.current?.close()
 
   return (
-    <View number="03" kicker="Certificates" title="Receipts, in case you need them." next={{ label: 'Contact', href: to({ name: 'contact' }) }}>
+    <View number="03" kicker="Certificates" title="Receipts, in case you need them." say="Proof he did the homework." next={{ label: 'Contact', href: to({ name: 'contact' }) }}>
       <ul className="grid gap-x-8 gap-y-14 sm:grid-cols-2">
         {certificates.map((cert) => (
           <li key={cert.verify}>
@@ -39,7 +39,13 @@ export function Certificates() {
                 <span>{cert.issuer}</span>
                 <span>{cert.date}</span>
               </span>
-              <span className="mt-2 block text-lg leading-snug">{cert.title}</span>
+              <span
+                data-say={cert === certificates[0] ? 'Tap one to see it up close.' : undefined}
+                data-perch="text"
+                className="mt-2 block text-lg leading-snug"
+              >
+                {cert.title}
+              </span>
               <span className="mt-1 block text-sm text-ink-soft">{cert.detail}</span>
             </button>
           </li>

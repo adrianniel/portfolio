@@ -11,13 +11,15 @@ type Props = {
   /** Gap between words, in ms. */
   stagger?: number
   id?: string
+  /** A line for Maya, the guide bird, to say when she perches here. */
+  say?: string
 }
 
 /**
  * Text that comes into focus word by word as it scrolls into view.
  * Plain strings are split into words; elements (links, <em>) move as one word.
  */
-export function Reveal({ as: Tag = 'p', children, className = '', delay = 0, stagger = 22, id }: Props) {
+export function Reveal({ as: Tag = 'p', children, className = '', delay = 0, stagger = 22, id, say }: Props) {
   const [ref, inView] = useInView<HTMLElement>()
   let i = 0
 
@@ -45,7 +47,13 @@ export function Reveal({ as: Tag = 'p', children, className = '', delay = 0, sta
   })
 
   return (
-    <Tag ref={ref} id={id} className={`reveal ${inView ? 'is-in' : ''} ${className}`}>
+    <Tag
+      ref={ref}
+      id={id}
+      data-say={say}
+      data-perch={say ? 'text' : undefined}
+      className={`reveal ${inView ? 'is-in' : ''} ${className}`}
+    >
       {parts}
     </Tag>
   )

@@ -17,6 +17,8 @@ type Props = {
   duration?: number
   /** CSS aspect-ratio override, e.g. "4 / 5". Defaults to the image's own. */
   aspect?: string
+  /** A line for Maya, the guide bird, to say on top of this image. */
+  say?: string
 }
 
 const CREAM = '#f2ebdc'
@@ -56,6 +58,7 @@ export function SwarmImage({
   priority = false,
   duration = 2000,
   aspect,
+  say,
 }: Props) {
   const asset = images[image]
   const [ref, inView] = useInView<HTMLDivElement>()
@@ -279,6 +282,8 @@ export function SwarmImage({
   return (
     <div
       ref={ref}
+      data-say={say}
+      data-perch={say ? 'center' : undefined}
       className={`relative overflow-hidden ${className}`}
       style={{ aspectRatio: aspect ?? `${asset.width} / ${asset.height}` }}
     >

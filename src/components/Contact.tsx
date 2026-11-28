@@ -20,14 +20,19 @@ export function Contact() {
   }
 
   return (
-    <View number="04" kicker="Contact" title="Let's build something together.">
+    <View number="04" kicker="Contact" title="Let's build something together." say="This is where it gets real.">
       <Reveal className="max-w-[32rem] text-lg leading-relaxed text-ink-soft text-pretty">
         I'm open to internships, freelance work and good conversations about software. Write to me and I'll get
         back to you within a day or two.
       </Reveal>
 
       <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
-        <a href={mailto} className="btn-ember px-6! py-3.5! text-base!">
+        <a
+          href={mailto}
+          data-say="The orange button emails Niel. He replies fast!"
+          data-perch="center"
+          className="btn-ember px-6! py-3.5! text-base!"
+        >
           Send me an email
           <span aria-hidden="true" className="font-mono text-sm">→</span>
         </a>

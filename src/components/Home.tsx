@@ -13,6 +13,8 @@ export function Home() {
           <p className="label mb-6">00 — Full-stack developer · Bohol, PH</p>
           <h1
             id="home-title"
+            data-say="This is Niel's place. Have a look around!"
+            data-perch="text"
             className="font-dot text-[clamp(3.4rem,10vw,6.25rem)] leading-[0.88] font-black tracking-[-0.03em]"
           >
             Niel <span className="sm:block xl:inline">Adrian</span>
@@ -38,12 +40,16 @@ export function Home() {
           priority
           duration={1800}
           aspect="4 / 5"
+          say="That's Niel. He built everything here."
           imgClassName="object-[50%_18%]"
           className="mx-auto w-44 rounded-[3px] sm:w-full"
         />
       </div>
 
-      <dl className="mt-16 grid grid-cols-3 border-y border-ink/15 py-6">
+      <dl
+        data-say={`${projects.length} projects, ${live} of them live!`}
+        className="mt-16 grid grid-cols-3 border-y border-ink/15 py-6"
+      >
         <div>
           <dt className="label">Projects</dt>
           <dd className="font-dot mt-2 text-4xl leading-none font-black">{projects.length}</dd>
@@ -61,6 +67,8 @@ export function Home() {
       <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
         <a
           href={to({ name: 'about' })}
+          data-say="Click here and follow me!"
+          data-perch="center"
           className="group inline-flex items-center gap-2 rounded-full border border-ink px-5 py-3 text-[0.95rem] font-medium transition-colors hover:bg-ink hover:text-cream"
         >
           Start the tour
