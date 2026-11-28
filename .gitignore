@@ -48,3 +48,6 @@ GEMINI.md
 docs/
 PLANNING.md
 NOTES.md
+
+# Raw, unoptimized image sources (processed into src/assets)
+assets-raw/

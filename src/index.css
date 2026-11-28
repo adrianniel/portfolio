@@ -1,1 +1,76 @@
 @import "tailwindcss";
+
+/* Self-hosted fonts (latin only keeps the payload small). */
+@import "@fontsource/gloock/latin-400.css";
+@import "@fontsource-variable/schibsted-grotesk/wght.css";
+@import "@fontsource-variable/martian-mono/wght.css";
+
+/*
+ * Palette: cream and ink get along; ember (burnt orange) does not.
+ * Ember is reserved for the one thing on screen that should be clicked.
+ */
+@theme {
+  --color-cream: #f2ebdc;
+  --color-cream-deep: #e9e0cc;
+  --color-ink: #16130f;
+  --color-ink-soft: #5c564c;
+  --color-ember: #a9441a;
+  --color-ember-hot: #c2541c;
+
+  --font-display: "Gloock", "Times New Roman", serif;
+  --font-sans: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Martian Mono Variable", ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+    font-feature-settings: "ss01", "kern";
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    @apply bg-ink text-cream;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Small mono label used for section numbers and meta text. */
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+/* Paper grain, drawn once as an SVG noise tile. */
+@utility grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 0 0.06 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
