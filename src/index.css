@@ -187,10 +187,14 @@
     top: 0;
     left: 0;
     max-width: min(16rem, calc(100vw - 1.5rem));
+    border: 1px solid var(--color-ink);
     border-radius: 4px;
-    background: var(--color-ink);
-    color: var(--color-cream);
-    padding: 0.45rem 0.7rem;
+    /* Transparent, with a soft blur so it stays readable over other text. */
+    background: transparent;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    color: var(--color-ink);
+    padding: 0.4rem 0.65rem;
     font-size: 0.8125rem;
     line-height: 1.35;
     opacity: 0;
@@ -202,15 +206,20 @@
     opacity: 1;
   }
 
-  /* The little tail points down at the bird; script sets --tail. */
+  /* The little outlined tail points down at the bird; script sets --tail. */
   .guide-bubble::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: -4.5px;
     left: var(--tail, 18px);
-    border: 5px solid transparent;
-    border-top-color: var(--color-ink);
-    border-bottom: 0;
+    width: 9px;
+    height: 9px;
+    background: var(--color-cream);
+    border-right: 1px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-ink);
+    /* Only the lower half: it covers the border where the tail opens. */
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    transform: rotate(45deg);
   }
 
   @media (prefers-reduced-motion: reduce) {
