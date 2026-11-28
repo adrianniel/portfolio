@@ -131,55 +131,105 @@
 }
 
 /* ---------------------------------------------------------------------------
- * Maya, the guide bird. Positioned by script; everything else is CSS.
+ * Maya, the guide hummingbird. Position, facing (--face), body tilt (--tilt)
+ * and the flight state are set by script; every movement of her body is CSS.
  * ------------------------------------------------------------------------ */
 @layer components {
   .guide-bird {
     position: absolute;
     top: 0;
     left: 0;
-    width: 44px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     will-change: transform;
   }
 
   .guide-svg {
-    transform: scaleX(var(--face, 1));
-    transition: transform 0.18s ease-out;
+    transform: translateY(var(--lift, 0px)) scaleX(var(--face, 1)) rotate(var(--tilt, 0deg));
+    transform-origin: 46% 64%;
+    transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  .guide-head {
-    transform-box: view-box;
-    transform-origin: 28px 14px;
-    animation: guide-tilt 6s ease-in-out infinite;
-  }
-
-  .guide-wing {
+  /* Wings: folded while perched, a fast blur in the air. */
+  .hb-wings {
     display: none;
-    transform-box: view-box;
-    transform-origin: 21px 15.5px;
   }
 
-  .is-flying .guide-wing {
+  .is-flying .hb-wings,
+  .act-buzz .hb-wings {
     display: block;
-    animation: guide-flap 0.13s ease-in-out infinite alternate;
   }
 
-  .is-flying .guide-legs {
+  .is-flying .hb-wing-folded,
+  .act-buzz .hb-wing-folded,
+  .is-flying .hb-legs {
     display: none;
   }
 
-  .is-flying .guide-head {
-    animation: none;
+  .hb-blur {
+    opacity: 0.12;
+  }
+
+  .hb-wing {
+    opacity: 0.55;
+    transform-box: view-box;
+    transform-origin: 20.5px 17.5px;
+  }
+
+  .hb-wing-a {
+    animation: hb-beat-a 70ms linear infinite alternate;
+  }
+
+  .hb-wing-b {
+    animation: hb-beat-b 70ms linear infinite alternate;
+  }
+
+  /* Perched life: breathing, a head that turns and preens, blinks, tail flicks. */
+  .hb-body {
+    transform-box: view-box;
+    transform-origin: 18px 28px;
+    animation: hb-breathe 2.8s ease-in-out infinite;
+  }
+
+  .hb-head {
+    transform-box: view-box;
+    transform-origin: 23px 15.5px;
+  }
+
+  .hb-eye {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 0.07s;
+  }
+
+  .hb-tail {
+    transform-box: view-box;
+    transform-origin: 12.5px 26px;
+  }
+
+  .act-blink .hb-eye {
+    transform: scaleY(0.1);
+  }
+
+  .act-look .hb-head {
+    animation: hb-look 1.4s ease-in-out;
+  }
+
+  .act-preen .hb-head {
+    animation: hb-preen 1.5s ease-in-out;
+  }
+
+  .act-tail .hb-tail {
+    animation: hb-tail 0.5s ease-out;
+  }
+
+  .act-buzz {
+    --lift: -4px;
   }
 
   .is-landing .guide-svg {
-    animation: guide-land 0.32s var(--ease-out-expo);
-  }
-
-  .is-poked .guide-svg {
-    animation: guide-hop 0.45s var(--ease-out-expo);
+    animation: hb-land 0.34s var(--ease-out-expo);
   }
 
   .guide-bubble {
@@ -223,47 +273,88 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .guide-head,
-    .is-flying .guide-wing {
+    .hb-body,
+    .hb-wing-a,
+    .hb-wing-b,
+    .act-look .hb-head,
+    .act-preen .hb-head,
+    .act-tail .hb-tail {
       animation: none;
     }
   }
 }
 
-/* Up-stroke to down-stroke: the wing swings back and under the body. */
-@keyframes guide-flap {
+/* Two wing positions swapping every few milliseconds read as a blur. */
+@keyframes hb-beat-a {
   from {
-    transform: rotate(12deg);
+    transform: rotate(8deg);
   }
   to {
-    transform: rotate(-82deg);
+    transform: rotate(-64deg);
   }
 }
 
-@keyframes guide-tilt {
-  0%,
-  84%,
-  100% {
-    transform: none;
+@keyframes hb-beat-b {
+  from {
+    transform: rotate(-58deg) scaleY(0.9);
   }
-  88%,
-  95% {
-    transform: rotate(-14deg);
+  to {
+    transform: rotate(6deg);
   }
 }
 
-@keyframes guide-land {
-  40% {
-    transform: scaleX(var(--face, 1)) scaleY(0.84) translateY(2px);
+@keyframes hb-breathe {
+  50% {
+    transform: scale(1.025, 1.04);
   }
 }
 
-@keyframes guide-hop {
-  35% {
-    transform: scaleX(var(--face, 1)) translateY(-9px);
+/* Quick, jerky head turns, the way hummingbirds look around. */
+@keyframes hb-look {
+  8%,
+  38% {
+    transform: rotate(-16deg);
   }
-  70% {
-    transform: scaleX(var(--face, 1)) translateY(0) scaleY(0.9);
+  46%,
+  80% {
+    transform: rotate(13deg);
+  }
+  90% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Beak tucked down into the chest feathers, a few small strokes. */
+@keyframes hb-preen {
+  18% {
+    transform: rotate(60deg) translate(-0.5px, 1px);
+  }
+  32% {
+    transform: rotate(52deg) translate(-0.5px, 1px);
+  }
+  46% {
+    transform: rotate(63deg) translate(-0.5px, 1px);
+  }
+  60% {
+    transform: rotate(54deg) translate(-0.5px, 1px);
+  }
+  76% {
+    transform: rotate(60deg) translate(-0.5px, 1px);
+  }
+}
+
+@keyframes hb-tail {
+  25% {
+    transform: rotate(16deg);
+  }
+  55% {
+    transform: rotate(-8deg);
+  }
+}
+
+@keyframes hb-land {
+  45% {
+    transform: translateY(var(--lift, 0px)) scaleX(var(--face, 1)) rotate(var(--tilt, 0deg)) scaleY(0.88);
   }
 }
 
