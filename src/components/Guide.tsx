@@ -7,7 +7,7 @@ import { NestBack, NestFront } from './Nest'
 const noop = () => () => {}
 
 /**
- * Maya, the guide hummingbird, and her nest. Purely decorative (aria-hidden):
+ * Pip, the guide hummingbird, and her nest. Purely decorative (aria-hidden):
  * every line she says repeats something already on the page. Not part of the
  * prerendered HTML. Layer order: nest back, bird, nest front, speech bubble.
  */
@@ -48,7 +48,7 @@ export function Guide({ section, routeKey }: { section: Section; routeKey: strin
         tabIndex={-1}
         onClick={() => guide.current?.poke()}
         className="guide-bird pointer-events-auto"
-        title="Maya"
+        title="Pip"
       >
         <Bird />
       </button>

@@ -1,5 +1,5 @@
 /*
- * Maya's home: an ink branch growing in from the right edge of the screen,
+ * Pip's home: an ink branch growing in from the right edge of the screen,
  * with a small nest on it. It is drawn in two layers so she can sit *inside*
  * the nest: the branch and the back wall go behind her, the front of the
  * bowl goes in front of her. Both layers are 130×64 and share one viewBox.

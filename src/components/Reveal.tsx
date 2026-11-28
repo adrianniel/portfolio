@@ -11,7 +11,7 @@ type Props = {
   /** Gap between words, in ms. */
   stagger?: number
   id?: string
-  /** A line for Maya, the guide bird, to say when she perches here. */
+  /** A line for Pip, the guide bird, to say when she perches here. */
   say?: string
 }
 

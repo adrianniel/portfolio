@@ -144,7 +144,7 @@
 }
 
 /* ---------------------------------------------------------------------------
- * Maya, the guide hummingbird. Position, facing (--face), body tilt (--tilt)
+ * Pip, the guide hummingbird. Position, facing (--face), body tilt (--tilt)
  * and the flight state are set by script; every movement of her body is CSS.
  * ------------------------------------------------------------------------ */
 @layer components {

@@ -1,7 +1,7 @@
 import type { Section } from './router'
 
 /*
- * Maya's brain. She perches on things marked with data-say (the line she
+ * Pip's brain. She perches on things marked with data-say (the line she
  * says there) and optional data-perch:
  *   "text"   stands on top of an actual letter near the end of the first line
  *   "center" stands on the middle of the element's top edge
@@ -29,7 +29,7 @@ const FOOT_X = 18.5
 const FOOT_Y = 31
 const TOP_SAFE = 64
 
-export const INTRO = "Hi, I'm Maya! I'll show you around. Follow me."
+export const INTRO = "Hi, I'm Pip! I'll show you around. Follow me."
 
 const ON_SWITCH: Record<Section, string> = {
   home: 'Back to the start!',
@@ -252,7 +252,7 @@ export class GuideController {
     else this.fly({ x: window.innerWidth - 40, y: TOP_SAFE + 44 }, ON_SWITCH[section], 900)
   }
 
-  /** A click on Maya: a buzz of the wings and a random line. */
+  /** A click on Pip: a buzz of the wings and a random line. */
   poke() {
     if (this.flight) return
     this.act('buzz', 650)

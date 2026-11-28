@@ -7,7 +7,7 @@ type Props = {
   title: string
   /** Where the tour goes after this view. */
   next?: { label: string; href: string }
-  /** What Maya says on the title. */
+  /** What Pip says on the title. */
   say?: string
   children: ReactNode
 }

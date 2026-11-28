@@ -17,7 +17,7 @@ type Props = {
   duration?: number
   /** CSS aspect-ratio override, e.g. "4 / 5". Defaults to the image's own. */
   aspect?: string
-  /** A line for Maya, the guide bird, to say on top of this image. */
+  /** A line for Pip, the guide bird, to say on top of this image. */
   say?: string
 }
 

@@ -33,7 +33,7 @@ export type Project = {
   summary: string
   /** A short personal line about the project. */
   note: string
-  /** What Maya, the guide bird, says about it. */
+  /** What Pip, the guide bird, says about it. */
   guide: string
   stack: string[]
   image: ImageKey

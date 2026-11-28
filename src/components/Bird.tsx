@@ -1,5 +1,5 @@
 /**
- * Maya, drawn as an ink hummingbird silhouette facing right, sitting fairly
+ * Pip, drawn as an ink hummingbird silhouette facing right, sitting fairly
  * upright like a perched hummingbird does. Parts are split so CSS can animate
  * them: the head turns and preens, the eye blinks, the tail flicks, the body
  * breathes, and in flight the folded wing gives way to two blurred wings.
