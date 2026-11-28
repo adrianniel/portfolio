@@ -23,7 +23,8 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - run: npm ci
+      # npm ci rejects a lockfile made on Windows (missing Linux optional deps).
+      - run: npm install --no-audit --no-fund
       - run: npm run lint
       - run: npm run build
       - uses: actions/configure-pages@v5
