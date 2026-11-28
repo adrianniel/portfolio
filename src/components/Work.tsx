@@ -20,14 +20,23 @@ function StatusDot({ project }: { project: Project }) {
   )
 }
 
-/** The index: one row per project, with a preview that follows the pointer. */
+const PEEK_WIDTH = 288
+
+/** The index: one row per project, with a short note that follows the pointer. */
 function WorkList() {
   const [hovered, setHovered] = useState<string | null>(null)
+  // Keeps the last project's text while the card fades out.
+  const [last, setLast] = useState(0)
   const peek = useRef<HTMLDivElement>(null)
 
   const follow = (e: PointerEvent) => {
-    if (peek.current) peek.current.style.transform = `translate3d(${e.clientX + 28}px, ${e.clientY - 100}px, 0)`
+    if (!peek.current) return
+    // Sit to the right of the pointer, or flip to the left near the edge.
+    const right = e.clientX + 28 + PEEK_WIDTH < window.innerWidth - 16
+    const x = right ? e.clientX + 28 : e.clientX - 28 - PEEK_WIDTH
+    peek.current.style.transform = `translate3d(${x}px, ${e.clientY - 36}px, 0)`
   }
+  const shown = projects[last]
 
   return (
     <View
@@ -42,7 +51,10 @@ function WorkList() {
           <li key={project.slug} className="border-b border-ink/15">
             <a
               href={to({ name: 'project', slug: project.slug })}
-              onPointerEnter={() => setHovered(project.slug)}
+              onPointerEnter={() => {
+                setHovered(project.slug)
+                setLast(i)
+              }}
               className="group grid grid-cols-[2.25rem_minmax(0,1fr)_auto] items-center gap-x-4 py-6 sm:gap-x-6 sm:py-7"
             >
               <span className="font-dot text-xl leading-none font-black">{pad(i + 1)}</span>
@@ -88,21 +100,24 @@ function WorkList() {
         className="pointer-events-none fixed top-0 left-0 z-30 hidden transition-transform duration-300 ease-out-expo can-hover:block motion-reduce:transition-none"
       >
         <div
-          className={`relative aspect-[16/10] w-80 overflow-hidden rounded-[3px] shadow-[0_24px_60px_-20px_rgb(22_19_15/0.45)] ring-1 ring-ink/15 transition-[opacity,scale] duration-300 ease-out-expo ${
-            hovered ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
+          style={{ width: PEEK_WIDTH }}
+          className={`rounded-[4px] border border-ink bg-cream px-4 pt-3 pb-3.5 shadow-[0_18px_40px_-24px_rgb(22_19_15/0.55)] transition-[opacity,scale] duration-300 ease-out-expo ${
+            hovered ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
           }`}
         >
-          {projects.map((p) => (
-            <img
-              key={p.slug}
-              src={sized(p.image, 720)}
-              alt=""
-              decoding="async"
-              className={`absolute inset-0 size-full object-cover transition-opacity duration-300 ${
-                hovered === p.slug ? 'opacity-100' : 'opacity-0'
-              }`}
-            />
-          ))}
+          <p className="label flex items-center justify-between gap-3">
+            <span>
+              {pad(last + 1)} · {shown.kind}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <StatusDot project={shown} />
+              {shown.year}
+            </span>
+          </p>
+          <p key={shown.slug} className="peek-in mt-2.5 text-[0.95rem] leading-snug text-pretty">
+            {shown.short}
+          </p>
+          <p className="label mt-3 truncate">{shown.stack.slice(0, 3).join(' · ')}</p>
         </div>
       </div>
     </View>

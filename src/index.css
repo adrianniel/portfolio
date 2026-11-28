@@ -113,7 +113,20 @@
 }
 
 @utility view-in {
-  animation: view-in 0.6s var(--ease-out-expo) both;
+  /* backwards, not both: a lingering transform would trap position: fixed children. */
+  animation: view-in 0.6s var(--ease-out-expo) backwards;
+}
+
+/* The work preview's text swaps softly as the pointer moves between rows. */
+@keyframes peek-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+
+@utility peek-in {
+  animation: peek-in 0.25s ease-out both;
 }
 
 /* Mobile menu slides down from the top bar. */
