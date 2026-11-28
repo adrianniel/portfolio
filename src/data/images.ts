@@ -6,6 +6,10 @@ export type ImageAsset = {
   widths: number[]
   width: number
   height: number
+  /** For cut-outs: how far across the top edge the head peaks (0 to 1). */
+  perchX?: number
+  /** For cut-outs: how far below the top edge the head starts, as a share of the width. */
+  perchY?: number
 }
 
 export const images = {
@@ -13,10 +17,12 @@ export const images = {
     "base": "img/niel",
     "widths": [
       480,
-      960
+      737
     ],
-    "width": 1170,
-    "height": 1824
+    "width": 737,
+    "height": 1595,
+    "perchX": 0.383,
+    "perchY": 0.009
   },
   "projects/dagohoy": {
     "base": "img/projects/dagohoy",
