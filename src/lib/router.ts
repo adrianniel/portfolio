@@ -70,7 +70,8 @@ export function to(route: Route): string {
 }
 
 /** The top-level section a route belongs to (a project belongs to Work). */
-export const sectionOf = (route: Route): RouteName => (route.name === 'project' ? 'work' : route.name)
+export type Section = Exclude<RouteName, 'project'>
+export const sectionOf = (route: Route): Section => (route.name === 'project' ? 'work' : route.name)
 
 /** A stable key for a route, used to replay the view transition. */
 export const keyOf = (route: Route) => (route.name === 'project' ? `project:${route.slug}` : route.name)

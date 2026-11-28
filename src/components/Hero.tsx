@@ -15,7 +15,7 @@ export function Hero() {
   const { greeting, name } = useViewer()
 
   return (
-    <section id="top" aria-labelledby="greeting" className="pt-16 sm:pt-24">
+    <section aria-labelledby="greeting">
       <div className="grid gap-10 sm:grid-cols-[1fr_13rem] sm:items-end sm:gap-12">
         <div>
           <p className="label mb-6">00 — {name ? `A tour for ${name}` : 'A short tour'}</p>

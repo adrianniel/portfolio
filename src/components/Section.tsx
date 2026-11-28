@@ -12,7 +12,7 @@ type Props = {
 /** A numbered stop on the tour, with a hairline rule above it. */
 export function Section({ id, number, kicker, title, children }: Props) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="mt-28 scroll-mt-8 border-t border-ink/15 pt-10 sm:mt-36">
+    <section id={id} aria-labelledby={`${id}-title`} className="">
       <p className="label mb-8 flex justify-between">
         <span>{number}</span>
         <span>{kicker}</span>

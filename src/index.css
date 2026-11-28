@@ -90,6 +90,33 @@
   }
 }
 
+/* Each view comes into focus the same way the text does. */
+@keyframes view-in {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(10px);
+  }
+}
+
+@utility view-in {
+  animation: view-in 0.6s var(--ease-out-expo) both;
+}
+
+/* Mobile menu slides down from the top bar. */
+@keyframes drawer-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@utility drawer {
+  &[open] {
+    animation: drawer-in 0.45s var(--ease-out-expo) both;
+  }
+}
+
 /* The one color that does not get along: only for what should be clicked. */
 @utility btn-ember {
   display: inline-flex;
