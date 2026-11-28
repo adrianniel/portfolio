@@ -205,7 +205,6 @@ export class GuideController {
   private readonly bubble: HTMLElement
   private readonly homes: HTMLElement[]
   private readonly home: HTMLElement
-  private homeTimer = 0
 
   constructor(bird: HTMLElement, bubble: HTMLElement, homes: HTMLElement[]) {
     this.bird = bird
@@ -214,7 +213,6 @@ export class GuideController {
     this.home = homes[0].querySelector<HTMLElement>('[data-home-perch]') ?? homes[0]
     this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     // She starts the visit at home, in her nest on the branch.
-    this.showHome(true)
     this.spot = this.home
     this.perch = this.measure(this.home)
     this.pos = this.onScreen(this.perch)
@@ -230,7 +228,7 @@ export class GuideController {
     window.removeEventListener('resize', this.onScroll)
     cancelAnimationFrame(this.flight)
     cancelAnimationFrame(this.scrollFrame)
-    for (const t of [this.settleTimer, this.nextTimer, this.hideTimer, this.startTimer, this.idleTimer, this.actTimer, this.homeTimer])
+    for (const t of [this.settleTimer, this.nextTimer, this.hideTimer, this.startTimer, this.idleTimer, this.actTimer])
       clearTimeout(t)
   }
 
@@ -290,10 +288,6 @@ export class GuideController {
     this.fly(this.home, '', 9000)
   }
 
-  private showHome(show: boolean) {
-    clearTimeout(this.homeTimer)
-    for (const el of this.homes) el.classList.toggle('is-shown', show)
-  }
 
   private scheduleNext(ms: number) {
     clearTimeout(this.nextTimer)
@@ -372,13 +366,6 @@ export class GuideController {
     this.stopIdle()
     clearTimeout(this.nextTimer)
 
-    // Heading home brings the branch in; leaving lets it go once she is up.
-    const goingHome = spot === this.home
-    if (goingHome) this.showHome(true)
-    else if (this.bird.classList.contains('is-nesting')) {
-      clearTimeout(this.homeTimer)
-      this.homeTimer = window.setTimeout(() => this.showHome(false), 500)
-    }
     this.bird.classList.remove('is-nesting')
 
     const from = { ...this.pos }

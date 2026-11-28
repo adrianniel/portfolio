@@ -245,24 +245,14 @@
     animation: hb-land 0.34s var(--ease-out-expo);
   }
 
-  /* Her home: a branch with a nest, growing in from the right edge. */
+  /* Her home: a branch with a nest, growing in from the right edge. Always there. */
   .guide-home {
     position: absolute;
     right: 0;
     bottom: 12px;
     width: 130px;
     height: 64px;
-    opacity: 0;
-    transform: translateX(24px);
     transform-origin: 100% 75%;
-    transition:
-      opacity 0.45s ease-out,
-      transform 0.7s var(--ease-out-expo);
-  }
-
-  .guide-home.is-shown {
-    opacity: 1;
-    transform: none;
   }
 
   /* The branch gives a little under her weight when she lands. */
