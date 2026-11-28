@@ -89,6 +89,7 @@ export function PresenceSummary({ compact = false }: { compact?: boolean }) {
 
   return (
     <div
+      data-perch="text"
       data-say={n > 1 ? `You're not alone. ${n} people are here!` : "It's just you and me here."}
       className="flex items-center gap-2.5"
     >

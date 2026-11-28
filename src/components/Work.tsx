@@ -78,7 +78,7 @@ function WorkList() {
           </li>
         ))}
       </ol>
-      <p data-say="Hover a row to peek inside." className="label mt-5 hidden can-hover:block">
+      <p data-say="Hover a row to peek inside." data-perch="text" className="label mt-5 hidden can-hover:block">
         Hover to peek · click to open
       </p>
 
@@ -188,7 +188,7 @@ function ProjectView({ slug }: { slug: string }) {
           </div>
 
           <div className="space-y-6">
-            <div data-say="Built with all of this.">
+            <div data-say="Built with all of this." data-perch="text">
               <p className="label mb-1.5">Built with</p>
               <p className="text-[0.95rem] leading-snug">{project.stack.join(' · ')}</p>
             </div>

@@ -22,7 +22,7 @@ export function About() {
           </Reveal>
         </div>
 
-        <dl data-say="His toolbox, front to back." className="space-y-5">
+        <dl data-say="His toolbox, front to back." data-perch="text" className="space-y-5">
           {stack.map((g) => (
             <div key={g.group}>
               <dt className="label mb-1.5">{g.group}</dt>
