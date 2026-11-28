@@ -5,6 +5,7 @@ import { Footer } from './components/Footer'
 import { Guide } from './components/Guide'
 import { Home } from './components/Home'
 import { Sidebar } from './components/Sidebar'
+import { ThemeToggle } from './components/ThemeToggle'
 import { Work } from './components/Work'
 import { usePresenceReporter } from './lib/presence'
 import { keyOf, sectionOf, useRoute } from './lib/router'
@@ -43,6 +44,10 @@ function App() {
           </div>
           <Footer />
         </main>
+      </div>
+      {/* Day/night switch, top-right on large screens (phones have it in the top bar). */}
+      <div className="fixed top-6 right-6 z-40 hidden lg:block">
+        <ThemeToggle className="bg-cream/70 backdrop-blur-sm" />
       </div>
       <Guide section={sectionOf(route)} routeKey={keyOf(route)} />
     </div>

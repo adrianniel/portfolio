@@ -10,12 +10,19 @@
     />
     <meta name="author" content="Niel Adrian Garig" />
     <meta name="theme-color" content="#f2ebdc" />
-    <meta name="color-scheme" content="light" />
+    <meta name="color-scheme" content="light dark" />
     <link rel="canonical" href="https://adrianniel.github.io/portfolio/" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <!-- A deep link like #/work hides the prerendered home view until the app swaps it in. -->
     <script>
       if (location.hash.length > 2 && location.hash.startsWith('#/')) document.documentElement.classList.add('deep-link')
+      // Night mode, if chosen on an earlier visit, before anything paints.
+      try {
+        if (localStorage.getItem('theme') === 'dark') {
+          document.documentElement.classList.add('dark')
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#14120e')
+        }
+      } catch (e) {}
     </script>
 
     <meta property="og:type" content="website" />

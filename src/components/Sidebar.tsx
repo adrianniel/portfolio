@@ -4,6 +4,7 @@ import { keyOf, sectionOf, to } from '../lib/router'
 import type { Route, RouteName } from '../lib/router'
 import { Clock } from './Clock'
 import { PresenceSummary, SectionHeads } from './Presence'
+import { ThemeToggle } from './ThemeToggle'
 
 type Item = { name: Exclude<RouteName, 'project'>; n: string; label: string; count?: number }
 
@@ -131,7 +132,7 @@ export function Sidebar({ route }: { route: Route }) {
         </a>
         <div className="flex items-center gap-4">
           <PresenceSummary compact />
-          <span className="label">{NAV.find((i) => i.name === active)?.label}</span>
+          <ThemeToggle className="size-8" />
           <button
             type="button"
             onClick={() => drawer.current?.showModal()}
