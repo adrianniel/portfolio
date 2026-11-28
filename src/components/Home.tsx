@@ -11,6 +11,12 @@ export function Home() {
 
   return (
     <article aria-labelledby="greeting">
+      {/* On phones the sidebar is folded away, so the name gets its big moment here. */}
+      <p aria-hidden="true" className="font-dot mb-10 text-[clamp(3.25rem,17vw,5rem)] leading-[0.9] font-black tracking-[-0.02em] lg:hidden">
+        Niel
+        <br />
+        Adrian
+      </p>
       <div className="grid gap-10 sm:grid-cols-[1fr_12rem] sm:items-end sm:gap-12">
         <div>
           <p className="label mb-6">00 — {name ? `A tour for ${name}` : 'A short tour'}</p>
@@ -48,15 +54,15 @@ export function Home() {
       <dl className="mt-16 grid grid-cols-3 border-y border-ink/15 py-6">
         <div>
           <dt className="label">Projects</dt>
-          <dd className="font-display mt-1 text-3xl">{projects.length}</dd>
+          <dd className="font-dot mt-2 text-4xl leading-none font-black">{projects.length}</dd>
         </div>
         <div>
           <dt className="label">Live</dt>
-          <dd className="font-display mt-1 text-3xl">{live}</dd>
+          <dd className="font-dot mt-2 text-4xl leading-none font-black">{live}</dd>
         </div>
         <div>
           <dt className="label">Based in</dt>
-          <dd className="font-display mt-1 text-3xl">Bohol</dd>
+          <dd className="font-dot mt-2 text-4xl leading-none font-black">Bohol</dd>
         </div>
       </dl>
 

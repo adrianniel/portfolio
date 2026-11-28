@@ -90,10 +90,11 @@ export function Sidebar({ route }: { route: Route }) {
         aria-label="Site"
         className="sticky top-0 hidden h-dvh flex-col border-r border-ink/15 px-8 py-10 lg:flex"
       >
-        <a href={to({ name: 'home' })} className="font-display text-2xl leading-none">
-          Niel Adrian
+        <a href={to({ name: 'home' })} className="font-dot text-[2.6rem] leading-[0.92] font-black tracking-[-0.02em]">
+          <span className="block">Niel</span>
+          <span className="block">Adrian</span>
         </a>
-        <p className="label mt-2">{profile.role}</p>
+        <p className="label mt-4">{profile.role}</p>
         {name && <p className="label mt-1 text-ink">Tour for {name}</p>}
 
         <nav aria-label="Main" className="mt-14">
@@ -119,7 +120,7 @@ export function Sidebar({ route }: { route: Route }) {
 
       {/* Mobile: a slim bar with a full-screen menu. */}
       <div className="sticky top-0 z-40 flex items-center justify-between border-b border-ink/10 bg-cream/85 px-5 py-3.5 backdrop-blur-md lg:hidden">
-        <a href={to({ name: 'home' })} className="font-display text-xl leading-none">
+        <a href={to({ name: 'home' })} className="font-dot text-[1.4rem] leading-none font-black">
           Niel Adrian
         </a>
         <div className="flex items-center gap-4">
@@ -142,7 +143,7 @@ export function Sidebar({ route }: { route: Route }) {
       >
         <div className="grain flex h-full flex-col px-5 py-3.5">
           <div className="flex items-center justify-between">
-            <span className="font-display text-xl leading-none">Niel Adrian</span>
+            <span className="font-dot text-[1.4rem] leading-none font-black">Niel Adrian</span>
             <button
               type="button"
               onClick={close}

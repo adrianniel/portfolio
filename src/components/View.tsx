@@ -14,9 +14,9 @@ type Props = {
 export function View({ number, kicker, title, next, children }: Props) {
   return (
     <article aria-labelledby="view-title">
-      <p className="label mb-8 flex justify-between">
-        <span>{number}</span>
-        <span>{kicker}</span>
+      <p className="mb-8 flex items-end justify-between">
+        <span className="font-dot text-3xl leading-none font-black">{number}</span>
+        <span className="label">{kicker}</span>
       </p>
       <Reveal
         key={title}

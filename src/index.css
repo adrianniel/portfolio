@@ -4,6 +4,7 @@
 @import "@fontsource/gloock/latin-400.css";
 @import "@fontsource-variable/schibsted-grotesk/wght.css";
 @import "@fontsource-variable/martian-mono/wght.css";
+@import "@fontsource-variable/doto/full.css";
 
 /*
  * Palette: cream and ink get along; ember (burnt orange) does not.
@@ -20,6 +21,8 @@
   --font-display: "Gloock", "Times New Roman", serif;
   --font-sans: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Martian Mono Variable", ui-monospace, monospace;
+  /* Dot-matrix face for the name and numbers, a nod to the cursor swarm. */
+  --font-dot: "Doto Variable", ui-monospace, monospace;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }

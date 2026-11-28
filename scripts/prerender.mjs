@@ -1,7 +1,7 @@
 // Makes dist/index.html paint without waiting on other files:
 //  1. puts the server-rendered page into #root (no wait for JavaScript),
 //  2. inlines the stylesheet (no render-blocking request),
-//  3. preloads the two fonts used above the fold.
+//  3. preloads the fonts used above the fold.
 // Runs after `vite build` and `vite build --ssr`.
 import { readFile, rm, writeFile } from 'node:fs/promises'
 import { pathToFileURL } from 'node:url'
@@ -22,7 +22,7 @@ const link = out.match(/<link rel="stylesheet"[^>]*href="\.\/(assets\/[^"]+\.css
 if (link) {
   // Font URLs in the CSS are relative to assets/; make them relative to the page.
   const css = (await readFile(path.join(dist, link[1]), 'utf8')).replaceAll('url(./', 'url(./assets/')
-  const aboveFold = /url\(\.\/(assets\/(?:gloock-latin-400|schibsted-grotesk-latin-wght-normal)[^)]+\.woff2)\)/g
+  const aboveFold = /url\(\.\/(assets\/(?:gloock-latin-400|schibsted-grotesk-latin-wght-normal|doto-latin-full-normal)[^)]+\.woff2)\)/g
   const preloads = [...new Set([...css.matchAll(aboveFold)].map((m) => m[1]))]
     .map((href) => `<link rel="preload" href="./${href}" as="font" type="font/woff2" crossorigin>`)
     .join('\n    ')
