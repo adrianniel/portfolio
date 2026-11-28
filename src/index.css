@@ -130,6 +130,134 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+ * Maya, the guide bird. Positioned by script; everything else is CSS.
+ * ------------------------------------------------------------------------ */
+@layer components {
+  .guide-bird {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 44px;
+    height: 35px;
+    cursor: pointer;
+    will-change: transform;
+  }
+
+  .guide-svg {
+    transform: scaleX(var(--face, 1));
+    transition: transform 0.18s ease-out;
+  }
+
+  .guide-head {
+    transform-box: view-box;
+    transform-origin: 28px 14px;
+    animation: guide-tilt 6s ease-in-out infinite;
+  }
+
+  .guide-wing {
+    display: none;
+    transform-box: view-box;
+    transform-origin: 21px 15.5px;
+  }
+
+  .is-flying .guide-wing {
+    display: block;
+    animation: guide-flap 0.13s ease-in-out infinite alternate;
+  }
+
+  .is-flying .guide-legs {
+    display: none;
+  }
+
+  .is-flying .guide-head {
+    animation: none;
+  }
+
+  .is-landing .guide-svg {
+    animation: guide-land 0.32s var(--ease-out-expo);
+  }
+
+  .is-poked .guide-svg {
+    animation: guide-hop 0.45s var(--ease-out-expo);
+  }
+
+  .guide-bubble {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: min(16rem, calc(100vw - 1.5rem));
+    border-radius: 4px;
+    background: var(--color-ink);
+    color: var(--color-cream);
+    padding: 0.45rem 0.7rem;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    opacity: 0;
+    transition: opacity 0.25s ease-out;
+    pointer-events: none;
+  }
+
+  .guide-bubble.is-shown {
+    opacity: 1;
+  }
+
+  /* The little tail points down at the bird; script sets --tail. */
+  .guide-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: var(--tail, 18px);
+    border: 5px solid transparent;
+    border-top-color: var(--color-ink);
+    border-bottom: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .guide-head,
+    .is-flying .guide-wing {
+      animation: none;
+    }
+  }
+}
+
+/* Up-stroke to down-stroke: the wing swings back and under the body. */
+@keyframes guide-flap {
+  from {
+    transform: rotate(12deg);
+  }
+  to {
+    transform: rotate(-82deg);
+  }
+}
+
+@keyframes guide-tilt {
+  0%,
+  84%,
+  100% {
+    transform: none;
+  }
+  88%,
+  95% {
+    transform: rotate(-14deg);
+  }
+}
+
+@keyframes guide-land {
+  40% {
+    transform: scaleX(var(--face, 1)) scaleY(0.84) translateY(2px);
+  }
+}
+
+@keyframes guide-hop {
+  35% {
+    transform: scaleX(var(--face, 1)) translateY(-9px);
+  }
+  70% {
+    transform: scaleX(var(--face, 1)) translateY(0) scaleY(0.9);
+  }
+}
+
 /* The one color that does not get along: only for what should be clicked. */
 @utility btn-ember {
   display: inline-flex;
