@@ -6,15 +6,17 @@ Personal portfolio of **Niel Adrian Garig**, full-stack developer from Bohol, Ph
 
 ## What makes it different
 
-- **It greets the reader by name.** Send a personal link such as
-  `https://adrianniel.github.io/portfolio/?to=Maria` and the whole tour is written
-  for Maria: "Good evening, Maria." in the hero, her name on the section titles,
-  project notes, the contact button and the email subject. Visitors without a
-  link can type their name. The greeting follows the visitor's own clock.
-  The name stays in the visitor's browser (localStorage) and is never sent anywhere.
+- **One view at a time.** A sidebar (a menu on phones) moves between Home,
+  About, Work, Certificates and Contact. Every view has its own link
+  (`#/work`, `#/work/tumbli`), so back/forward and sharing work.
+- **Work is an index.** Hovering a project shows a floating preview; each
+  project opens on its own page.
+- **Live presence.** The sidebar shows how many people are on the site right
+  now, as little dot-matrix faces, and which section each of them is reading,
+  like the "seen" heads in a group chat. Nobody is identified and nothing is
+  stored: each open tab is a random id on a Supabase Realtime Presence channel.
 - **Text comes into focus** word by word as it scrolls into view.
 - **Images are built by a swarm of cursors** that reveal them tile by tile.
-  One of the cursors carries the visitor's name.
 - Everything respects `prefers-reduced-motion`.
 
 ## Design
@@ -25,7 +27,8 @@ Personal portfolio of **Niel Adrian Garig**, full-stack developer from Bohol, Ph
 | Ink | `#16130f` | Text, cursors, rules |
 | Ember | `#a9441a` | Only the things that should be clicked |
 
-Type: [Gloock](https://fonts.google.com/specimen/Gloock) for display,
+Type: [Doto](https://fonts.google.com/specimen/Doto) for the name and numbers,
+[Gloock](https://fonts.google.com/specimen/Gloock) for headings,
 [Schibsted Grotesk](https://fonts.google.com/specimen/Schibsted+Grotesk) for text,
 [Martian Mono](https://fonts.google.com/specimen/Martian+Mono) for labels. All self-hosted.
 
@@ -33,7 +36,10 @@ Type: [Gloock](https://fonts.google.com/specimen/Gloock) for display,
 
 - [Vite](https://vite.dev/) + [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS v4](https://tailwindcss.com/)
+- A tiny hash router (`src/lib/router.ts`), no routing library
 - No animation library: one shared `IntersectionObserver` and a canvas per image
+- [Supabase Realtime](https://supabase.com/docs/guides/realtime/presence) for presence,
+  loaded only after the page is idle (`src/lib/presence.ts`)
 - Prerendered at build time (`scripts/prerender.mjs`) with inlined CSS and preloaded fonts
 - Deployed to GitHub Pages by GitHub Actions on every push to `main`
 
