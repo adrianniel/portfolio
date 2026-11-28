@@ -1,5 +1,5 @@
 /* eslint-disable react/only-export-components -- provider and hook live together */
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useContext, useMemo, useSyncExternalStore } from 'react'
 import type { ReactNode } from 'react'
 
 /**
@@ -20,7 +20,8 @@ type Viewer = {
   /** Fills `{name}` in a template, using a friendly fallback. */
   say: (template: string) => string
   setName: (name: string | null) => void
-  partOfDay: PartOfDay
+  /** Null while prerendering, before the visitor's clock is known. */
+  partOfDay: PartOfDay | null
   greeting: string
   /** True when the name came from a personal link. */
   invited: boolean
@@ -82,30 +83,60 @@ function readFromUrl(): string | null {
   return null
 }
 
-export function ViewerProvider({ children }: { children: ReactNode }) {
-  const [initial] = useState(() => {
+/*
+ * The name and the time of day live outside React (URL, localStorage, the
+ * clock) and are read through useSyncExternalStore. The prerendered HTML uses
+ * the server snapshots (no name, neutral greeting); the browser then swaps in
+ * the real values right after hydration.
+ */
+type NameState = { name: string | null; invited: boolean }
+const SERVER_NAME: NameState = { name: null, invited: false }
+let nameState: NameState | null = null
+const nameListeners = new Set<() => void>()
+
+function getName(): NameState {
+  if (!nameState) {
     const fromUrl = readFromUrl()
-    return { name: fromUrl ?? readStored(), invited: Boolean(fromUrl) }
-  })
-  const [name, setNameState] = useState(initial.name)
-  const [part, setPart] = useState<PartOfDay>(() => partOfDay())
+    nameState = { name: fromUrl ?? readStored(), invited: Boolean(fromUrl) }
+    // Remember a name that arrived through a personal link.
+    if (fromUrl) store(fromUrl)
+  }
+  return nameState
+}
 
-  // Remember a name that arrived through a personal link.
-  useEffect(() => {
-    if (initial.invited) store(initial.name)
-  }, [initial])
+function subscribeName(listener: () => void) {
+  nameListeners.add(listener)
+  return () => nameListeners.delete(listener)
+}
 
-  // The greeting follows the visitor's clock, even on a long visit.
-  useEffect(() => {
-    const id = window.setInterval(() => setPart(partOfDay()), 60_000)
-    return () => window.clearInterval(id)
-  }, [])
+function setName(value: string | null) {
+  const next = cleanName(value)
+  nameState = { name: next, invited: nameState?.invited ?? false }
+  store(next)
+  nameListeners.forEach((l) => l())
+}
 
-  const setName = useCallback((value: string | null) => {
-    const next = cleanName(value)
-    setNameState(next)
-    store(next)
-  }, [])
+let partState: PartOfDay | null = null
+function getPart(): PartOfDay {
+  partState ??= partOfDay()
+  return partState
+}
+
+// The greeting follows the visitor's clock, even on a long visit.
+function subscribePart(listener: () => void) {
+  const id = window.setInterval(() => {
+    const next = partOfDay()
+    if (next !== partState) {
+      partState = next
+      listener()
+    }
+  }, 60_000)
+  return () => window.clearInterval(id)
+}
+
+export function ViewerProvider({ children }: { children: ReactNode }) {
+  const { name, invited } = useSyncExternalStore(subscribeName, getName, () => SERVER_NAME)
+  const part = useSyncExternalStore(subscribePart, getPart, () => null)
 
   // Address people by first name: "Juan Dela Cruz" reads as "Juan".
   const first = name ? name.split(' ')[0] : null
@@ -116,10 +147,10 @@ export function ViewerProvider({ children }: { children: ReactNode }) {
       say: (template) => template.replaceAll('{name}', first ?? FALLBACK),
       setName,
       partOfDay: part,
-      greeting: first ? `${GREETINGS[part]}, ${first}.` : `${GREETINGS[part]}.`,
-      invited: initial.invited,
+      greeting: !part ? 'Hello.' : first ? `${GREETINGS[part]}, ${first}.` : `${GREETINGS[part]}.`,
+      invited,
     }),
-    [first, part, setName, initial.invited],
+    [first, part, invited],
   )
 
   return <ViewerContext.Provider value={value}>{children}</ViewerContext.Provider>

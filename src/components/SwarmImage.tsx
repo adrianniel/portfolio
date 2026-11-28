@@ -63,7 +63,7 @@ export function SwarmImage({
   const [ref, inView] = useInView<HTMLDivElement>()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
-  const [done, setDone] = useState(() => typeof window !== 'undefined' && prefersReducedMotion())
+  const [done, setDone] = useState(false)
   const viewerLabel = useRef(name ?? 'you')
   useEffect(() => {
     viewerLabel.current = name ?? 'you'
@@ -85,7 +85,7 @@ export function SwarmImage({
   }, [done])
 
   useEffect(() => {
-    if (!inView || done) return
+    if (!inView || done || prefersReducedMotion()) return
     const canvas = canvasRef.current
     const img = imgRef.current
     const ctx = canvas?.getContext('2d')
@@ -304,7 +304,11 @@ export function SwarmImage({
         />
       </picture>
       {!done && (
-        <canvas ref={canvasRef} aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full" />
+        <canvas
+          ref={canvasRef}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full motion-reduce:hidden"
+        />
       )}
     </div>
   )

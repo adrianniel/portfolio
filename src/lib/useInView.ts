@@ -9,6 +9,7 @@ const callbacks = new WeakMap<Element, Callback>()
 let observer: IntersectionObserver | null = null
 
 function getObserver() {
+  if (typeof IntersectionObserver === 'undefined') return null
   observer ??= new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -26,13 +27,18 @@ function getObserver() {
 /** True once the element has scrolled into view (fires a single time). */
 export function useInView<T extends Element>() {
   const ref = useRef<T>(null)
-  // Without IntersectionObserver (very old browsers) everything just shows.
-  const [inView, setInView] = useState(() => typeof IntersectionObserver === 'undefined')
+  // Starts false on the server and the client alike, so hydration matches.
+  const [inView, setInView] = useState(false)
 
   useEffect(() => {
     const el = ref.current
     if (!el || inView) return
     const io = getObserver()
+    if (!io) {
+      // Very old browsers: just show everything.
+      const id = window.setTimeout(() => setInView(true))
+      return () => window.clearTimeout(id)
+    }
     callbacks.set(el, () => setInView(true))
     io.observe(el)
     return () => {
