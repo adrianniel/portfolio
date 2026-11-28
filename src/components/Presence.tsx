@@ -44,10 +44,10 @@ export function Avatar({ id, size = 22, self = false }: { id: string; size?: num
 
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" className="block shrink-0">
-      <circle cx="12" cy="12" r="11.25" fill={self ? '#16130f' : '#e9e0cc'} stroke="#f2ebdc" strokeWidth="1.5" />
-      <circle cx="12" cy="12" r="10.5" fill="none" stroke="#16130f" strokeOpacity={self ? 0 : 0.18} />
+      <circle cx="12" cy="12" r="11.25" className={`stroke-cream ${self ? 'fill-ink' : 'fill-cream-deep'}`} strokeWidth="1.5" />
+      <circle cx="12" cy="12" r="10.5" fill="none" className="stroke-ink" strokeOpacity={self ? 0 : 0.18} />
       {dots.map(([x, y]) => (
-        <circle key={`${x}-${y}`} cx={pos(x)} cy={pos(y)} r="1.25" fill={self ? '#f2ebdc' : '#16130f'} />
+        <circle key={`${x}-${y}`} cx={pos(x)} cy={pos(y)} r="1.25" className={self ? 'fill-cream' : 'fill-ink'} />
       ))}
     </svg>
   )

@@ -21,9 +21,16 @@ type Props = {
   say?: string
 }
 
-const CREAM = '#f2ebdc'
-const CREAM_DEEP = '#e9e0cc'
-const INK = '#16130f'
+/** The current theme's colors, read when an animation starts. */
+function palette() {
+  const css = getComputedStyle(document.documentElement)
+  const read = (name: string, fallback: string) => css.getPropertyValue(name).trim() || fallback
+  return {
+    CREAM: read('--color-cream', '#f2ebdc'),
+    CREAM_DEEP: read('--color-cream-deep', '#e9e0cc'),
+    INK: read('--color-ink', '#16130f'),
+  }
+}
 const HELPERS = ['niel', 'react', 'rust', 'prisma', 'vite', 'nest', 'expo', 'tailwind']
 
 type Tile = { x: number; y: number; w: number; h: number; cx: number; cy: number; hitAt: number }
@@ -77,7 +84,7 @@ export function SwarmImage({
     canvas.width = Math.round(rect.width * dpr)
     canvas.height = Math.round(rect.height * dpr)
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-    ctx.fillStyle = CREAM_DEEP
+    ctx.fillStyle = palette().CREAM_DEEP
     ctx.fillRect(0, 0, rect.width, rect.height)
   }, [done])
 
@@ -93,6 +100,7 @@ export function SwarmImage({
 
     const run = () => {
       if (cancelled) return
+      const { CREAM, CREAM_DEEP, INK } = palette()
       const W = canvas.clientWidth
       const H = canvas.clientHeight
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -227,9 +235,11 @@ export function SwarmImage({
           ctx.globalAlpha = a
           ctx.fillStyle = CREAM_DEEP
           ctx.fillRect(tile.x - 0.5, tile.y - 0.5, tile.w + 1, tile.h + 1)
-          ctx.strokeStyle = 'rgba(22, 19, 15, 0.09)'
+          ctx.globalAlpha = a * 0.09
+          ctx.strokeStyle = INK
           ctx.lineWidth = 1
           ctx.strokeRect(tile.x + 0.5, tile.y + 0.5, tile.w - 1, tile.h - 1)
+          ctx.globalAlpha = a
           // A click ring right after a tile is hit.
           if (tile.hitAt !== Infinity) {
             const p = Math.min(1, (t - tile.hitAt) / FADE)

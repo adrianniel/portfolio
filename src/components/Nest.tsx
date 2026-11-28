@@ -6,7 +6,8 @@
  * Her feet go at (62, 37), marked by the data-home-perch span.
  */
 
-const INK = '#16130f'
+// Drawn in currentColor: the ink of whichever theme is on.
+const INK = 'currentColor'
 
 /** A small almond leaf at (x, y), turned by `turn` degrees. */
 function Leaf({ x, y, turn }: { x: number; y: number; turn: number }) {

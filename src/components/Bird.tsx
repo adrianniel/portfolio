@@ -7,7 +7,7 @@
  */
 export function Bird() {
   return (
-    <svg viewBox="0 0 40 40" width="40" height="40" className="guide-svg block overflow-visible" fill="#16130f">
+    <svg viewBox="0 0 40 40" width="40" height="40" className="guide-svg block overflow-visible" fill="currentColor">
       {/* Flight: a faint blur of the wing sweep plus two fast-beating wings. */}
       <g className="hb-wings">
         <path className="hb-blur" d="M20.5 17.5C14 13 9 6 9.5 1.5 15 4 19.5 10 21.5 17Z" />
@@ -15,7 +15,7 @@ export function Bird() {
         <path className="hb-wing hb-wing-b" d="M20.5 17.5C17.5 9 14.5 3.5 11 1.2c1.2 5 4.2 11 8.3 17Z" />
       </g>
 
-      <g className="hb-legs" stroke="#16130f" strokeWidth="1.1" strokeLinecap="round" fill="none">
+      <g className="hb-legs" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" fill="none">
         <path d="M17 27.5v3.5M15.8 31h2.6" />
         <path d="M19.8 27v4M18.8 31h2.6" />
       </g>
@@ -32,7 +32,7 @@ export function Bird() {
         <circle cx="24.6" cy="12.6" r="4.3" />
         {/* The long, straight beak. */}
         <path d="M28.2 11.3 39.4 9.6v.7l-11 3.1Z" />
-        <circle className="hb-eye" cx="25.9" cy="11.6" r="0.8" fill="#f2ebdc" />
+        <circle className="hb-eye fill-cream" cx="25.9" cy="11.6" r="0.8" />
       </g>
     </svg>
   )

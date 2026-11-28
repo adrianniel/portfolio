@@ -14,13 +14,16 @@
  * Palette: cream and ink get along; ember (burnt orange) does not.
  * Ember is reserved for the one thing on screen that should be clicked.
  */
-@theme {
+/* static: always emit the variables, so script and dark mode can read them. */
+@theme static {
   --color-cream: #f2ebdc;
   --color-cream-deep: #e9e0cc;
   --color-ink: #16130f;
   --color-ink-soft: #5c564c;
   --color-ember: #a9441a;
   --color-ember-hot: #c2541c;
+  /* Text on ember stays light in both themes. */
+  --color-on-ember: #f7f1e6;
 
   --font-display: "Gloock", "Times New Roman", serif;
   --font-sans: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
@@ -32,6 +35,18 @@
 }
 
 @layer base {
+  /*
+   * Night: the same two colors trade places. Cream becomes the dark page,
+   * ink becomes the light text; ember stays ember.
+   */
+  html.dark {
+    color-scheme: dark;
+    --color-cream: #14120e;
+    --color-cream-deep: #221e18;
+    --color-ink: #ece4d4;
+    --color-ink-soft: #a39a8a;
+  }
+
   html {
     color-scheme: light;
     scroll-behavior: smooth;
@@ -149,6 +164,7 @@
  * ------------------------------------------------------------------------ */
 @layer components {
   .guide-bird {
+    color: var(--color-ink);
     position: absolute;
     top: 0;
     left: 0;
@@ -247,6 +263,7 @@
 
   /* Her home: a branch with a nest, growing in from the right edge. Always there. */
   .guide-home {
+    color: var(--color-ink);
     position: absolute;
     right: 0;
     bottom: 12px;
@@ -410,7 +427,7 @@
   gap: 0.5rem;
   border-radius: 999px;
   background: var(--color-ember);
-  color: var(--color-cream);
+  color: var(--color-on-ember);
   padding: 0.55rem 1.1rem;
   font-size: 0.875rem;
   font-weight: 560;
@@ -445,4 +462,9 @@
 /* Paper grain, drawn once as an SVG noise tile. */
 @utility grain {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 0 0.06 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* At night the grain is light specks instead of dark ones. */
+:where(html.dark) .grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.86 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
