@@ -8,26 +8,26 @@ export function Home() {
 
   return (
     <article aria-labelledby="home-title">
-      {/* On phones the sidebar is folded away, so the name gets its big moment here. */}
-      <p aria-hidden="true" className="font-dot mb-10 text-[clamp(3.25rem,17vw,5rem)] leading-[0.9] font-black tracking-[-0.02em] lg:hidden">
-        Niel
-        <br />
-        Adrian
-      </p>
       <div className="grid gap-10 sm:grid-cols-[1fr_12rem] sm:items-end sm:gap-12">
         <div>
-          <p className="label mb-6">00 — Full-stack developer</p>
-          <Reveal
-            as="h1"
+          <p className="label mb-6">00 — Full-stack developer · Bohol, PH</p>
+          <h1
             id="home-title"
-            stagger={60}
-            className="font-display text-[clamp(2.6rem,7vw,4.5rem)] leading-[0.98] tracking-[-0.02em] text-balance"
+            className="font-dot text-[clamp(3.4rem,10vw,6.25rem)] leading-[0.88] font-black tracking-[-0.03em]"
+          >
+            Niel <span className="sm:block xl:inline">Adrian</span>
+          </h1>
+          <Reveal
+            as="p"
+            delay={150}
+            stagger={50}
+            className="font-display mt-8 max-w-[30rem] text-[clamp(1.6rem,3.6vw,2.25rem)] leading-[1.05] tracking-[-0.01em] text-balance"
           >
             I build software people use every day.
           </Reveal>
-          <Reveal delay={250} className="mt-8 max-w-[32rem] text-lg leading-relaxed text-ink-soft text-pretty">
-            I'm Niel Adrian Garig, a developer from Bohol, Philippines. A queue for a campus, surveys for
-            farmers, a till for a pharmacy: what I make ends up in real hands.
+          <Reveal delay={450} className="mt-6 max-w-[32rem] text-lg leading-relaxed text-ink-soft text-pretty">
+            A queue for a campus, surveys for farmers, a till for a pharmacy: what I make ends up in real
+            hands, here in Bohol, Philippines.
           </Reveal>
         </div>
 
