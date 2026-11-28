@@ -28,6 +28,8 @@ export type Project = {
   year: string
   status: 'Live' | 'In progress'
   kind: string
+  /** One line for the hover preview in the work index. */
+  short: string
   summary: string
   /** A short personal line about the project. */
   note: string
@@ -45,6 +47,7 @@ export const projects: Project[] = [
     year: '2026',
     status: 'Live',
     kind: 'Windows app',
+    short: 'A floating water buddy that reminds you to drink and take breaks.',
     summary:
       'A floating water buddy for Windows. A little bottle with a face docks at the edge of the screen, fills up as you drink, and reminds you to take a break.',
     note: 'It sits at the edge of your screen and reminds you to drink water while you work.',
@@ -62,6 +65,7 @@ export const projects: Project[] = [
     year: '2026',
     status: 'In progress',
     kind: 'Mobile + web',
+    short: 'Campus queues without the standing in line: app, portal and live board.',
     summary:
       'Queue management for campus offices: a student mobile app, an admin portal and a live display board, so nobody has to stand in line to wait.',
     note: 'What I am building right now. Real students, real lines, real deadlines.',
@@ -76,6 +80,7 @@ export const projects: Project[] = [
     year: '2025',
     status: 'Live',
     kind: 'Web system',
+    short: "Irrigation surveys on a map, with reports and analysis for Bohol's farmers.",
     summary:
       'Local Irrigation System Assessment for BISU Bilar. Farmer surveys plotted on a map, reports for the irrigation office, and AI-assisted analysis.',
     note: 'Built for farmers in Bohol. My favorite kind of user.',
@@ -90,6 +95,7 @@ export const projects: Project[] = [
     year: '2026',
     status: 'Live',
     kind: 'Point of sale',
+    short: 'Sales, stock, batches and expiry dates for a real pharmacy counter.',
     summary:
       'Point-of-sale and inventory workspace for a pharmacy: barcode encoding, batch and expiry tracking, suppliers, and role-based screens for owners, admins and cashiers.',
     note: 'Used behind a real counter every day.',
